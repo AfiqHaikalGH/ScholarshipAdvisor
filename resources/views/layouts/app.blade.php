@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ config('app.name', 'ScholarshipAdvisor') }}</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            body { font-family: 'Inter', sans-serif; }
+
+            /* Sticky Nav adjustment */
+            nav {
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            }
+
+            /* User menu button hover effect */
+            #user-menu-trigger {
+                padding: 6px 12px;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+            }
+            #user-menu-trigger:hover {
+                background-color: #000000;
+            }
+            #user-menu-trigger:hover .user-name {
+                color: #ffffff;
+            }
+            #user-menu-trigger:hover .user-role {
+                color: #d1d5db;
+            }
+
+            /* Dropdown animation */
+            .user-dropdown {
+                display: none;
+                position: absolute;
+                right: 0;
+                top: calc(100% + 8px);
+                min-width: 180px;
+                background: white;
+                border: 1px solid #E5E7EB;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+                z-index: 50;
+                overflow: hidden;
+            }
+            .user-dropdown.open {
+                display: block;
+            }
+            .user-dropdown a,
+            .user-dropdown button {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+                padding: 10px 16px;
+                font-size: 14px;
+                color: #374151;
+                background: none;
+                border: none;
+                cursor: pointer;
+                text-align: left;
+                text-decoration: none;
+                transition: background 0.15s;
+            }
+            .user-dropdown a:hover,
+            .user-dropdown button:hover {
+                background: #F9FAFB;
+            }
+        </style>
+    </head>
+    <body class="antialiased bg-[#F0F2F5]">
+
+        <!-- Navigation Bar -->
+        <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+
+                    <!-- Left: Logo + Nav Links -->
+                    <div class="flex items-center gap-10">
+                        <!-- Logo -->
+                        <a href="{{ route('scholarship.info') }}" class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-[#2C3BEB] rounded-lg flex items-center justify-center">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                                    <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3ZM5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/>
+                                </svg>
+                            </div>
+                            <span class="font-bold text-gray-900 text-base">ScholarshipAdvisor</span>
+                        </a>
+
+                        <!-- Navigation Links -->
+                        <div class="hidden md:flex items-center gap-6">
+                            <a href="{{ route('scholarship.info') }}"
+                               class="text-sm font-medium {{ request()->routeIs('scholarship.info') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                Scholarship Information
+                            </a>
+
+                            @if(Auth::check() && Auth::user()->role !== 'admin')
+                                <a href="{{ route('qualifications.index') }}"
+                                   class="text-sm font-medium {{ request()->routeIs('qualifications.index') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                    Qualifications
+                                </a>
+                                <a href="{{ route('qualifications.recommendations') }}"
+                                   class="text-sm font-medium {{ request()->routeIs('qualifications.recommendations') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                    Recommendations
+                                </a>
+                            @endif
+
+                            @if(Auth::check() && Auth::user()->role === 'admin')
+                                <a href="{{ route('admin.create') }}"
+                                   class="text-sm font-medium {{ request()->routeIs('admin.create') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                    Create Admin
+                                </a>
+                                <a href="{{ route('scholarships.create') }}"
+                                   class="text-sm font-medium {{ request()->routeIs('scholarships.create') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                    Create Scholarship
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Right: User Dropdown -->
+                    <div class="relative" id="user-menu-wrapper">
+                        <button
+                            id="user-menu-trigger"
+                            onclick="toggleUserMenu()"
+                            class="flex flex-col items-end focus:outline-none cursor-pointer"
+                        >
+                            <span class="text-sm font-semibold text-gray-900 leading-tight user-name transition-colors">{{ Auth::user()->name }}</span>
+                            <span class="text-xs font-medium text-gray-400 capitalize user-role transition-colors">{{ Auth::user()->role }}</span>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div class="user-dropdown" id="user-dropdown">
+                            <a href="{{ route('profile.show') }}"> <!-- Updated to profile.show -->
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                My Profile
+                            </a>
+                            <div class="border-t border-gray-100"></div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                                    Log Out
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+
+        <!-- Page Content -->
+        <main class="max-w-7xl mx-auto px-6 py-10">
+            {{ $slot }}
+        </main>
+
+        <!-- Close dropdown when clicking outside -->
+        <script>
+            function toggleUserMenu() {
+                const dropdown = document.getElementById('user-dropdown');
+                dropdown.classList.toggle('open');
+            }
+
+            document.addEventListener('click', function(event) {
+                const wrapper = document.getElementById('user-menu-wrapper');
+                if (wrapper && !wrapper.contains(event.target)) {
+                    document.getElementById('user-dropdown').classList.remove('open');
+                }
+            });
+        </script>
+    </body>
+</html>
