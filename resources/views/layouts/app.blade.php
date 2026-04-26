@@ -81,18 +81,14 @@
 
         <!-- Navigation Bar -->
         <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
 
                     <!-- Left: Logo + Nav Links -->
                     <div class="flex items-center gap-10">
                         <!-- Logo -->
                         <a href="{{ route('scholarship.info') }}" class="flex items-center gap-2">
-                            <div class="w-8 h-8 bg-[#2C3BEB] rounded-lg flex items-center justify-center">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-                                    <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3ZM5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/>
-                                </svg>
-                            </div>
+                            <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-16 w-auto object-contain" />
                             <span class="font-bold text-gray-900 text-base">ScholarshipAdvisor</span>
                         </a>
 

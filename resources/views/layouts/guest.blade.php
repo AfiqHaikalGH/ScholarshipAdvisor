@@ -21,27 +21,27 @@
     <body class="antialiased bg-[#F0F2F5]">
 
         <!-- Top Navigation Bar -->
-        <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-50">
-            <!-- Logo -->
-            <a href="/" class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-[#2C3BEB] rounded-lg flex items-center justify-center">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3ZM5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/>
-                    </svg>
-                </div>
-                <span class="font-bold text-gray-900 text-base">ScholarshipAdvisor</span>
-            </a>
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo -->
+                    <a href="/" class="flex items-center gap-2">
+                        <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-16 w-auto object-contain" />
+                        <span class="font-bold text-gray-900 text-base">ScholarshipAdvisor</span>
+                    </a>
 
-            <!-- Nav Links -->
-            <nav class="flex items-center gap-6">
-                <!-- Removed Resources -->
-                <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
-                @if (request()->routeIs('login'))
-                    <a href="{{ route('register') }}" class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Sign Up</a>
-                @else
-                    <a href="{{ route('login') }}" class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Login</a>
-                @endif
-            </nav>
+                    <!-- Nav Links -->
+                    <nav class="flex items-center gap-6">
+                        <!-- Removed Resources -->
+                        <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
+                        @if (request()->routeIs('login'))
+                            <a href="{{ route('register') }}" class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Sign Up</a>
+                        @else
+                            <a href="{{ route('login') }}" class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Login</a>
+                        @endif
+                    </nav>
+                </div>
+            </div>
         </header>
 
         <!-- Main Content -->
