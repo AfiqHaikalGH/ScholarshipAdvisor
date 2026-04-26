@@ -160,7 +160,7 @@
                                             <option value="{{ $opt }}" {{ $subject === $opt ? 'selected' : '' }}>{{ $opt }}</option>
                                         @endforeach
                                     </select>
-                                    <input type="text" name="spm_subject_grade[]" value="{{ $subject ? $spmResults[$subject] : '' }}" placeholder="e.g., A+" class="spm-subject-grade w-full sm:w-28 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-[#2C3BEB] focus:border-[#2C3BEB]">
+                                    <input type="text" name="spm_subject_grade[]" value="{{ $spmResults[$subject] ?? '' }}" placeholder="e.g., A+" class="spm-subject-grade w-full sm:w-28 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-[#2C3BEB] focus:border-[#2C3BEB]">
                                     <button type="button" onclick="removeSubjectRow(this)" class="px-3 py-2 text-red-500 hover:text-red-700 text-sm">Remove</button>
                                 </div>
                                 @endforeach
@@ -183,7 +183,7 @@
                                             <option value="{{ $opt }}" {{ $subject === $opt ? 'selected' : '' }}>{{ $opt }}</option>
                                         @endforeach
                                     </select>
-                                    <input type="text" name="stpm_subject_grade[]" value="{{ $subject ? $stpmResults[$subject] : '' }}" placeholder="e.g., A" class="stpm-subject-grade w-full sm:w-28 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-[#2C3BEB] focus:border-[#2C3BEB]">
+                                    <input type="text" name="stpm_subject_grade[]" value="{{ $stpmResults[$subject] ?? '' }}" placeholder="e.g., A" class="stpm-subject-grade w-full sm:w-28 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-[#2C3BEB] focus:border-[#2C3BEB]">
                                     <button type="button" onclick="removeSubjectRow(this)" class="px-3 py-2 text-red-500 hover:text-red-700 text-sm">Remove</button>
                                 </div>
                                 @endforeach
