@@ -1,17 +1,8 @@
-<x-app-layout>
-    <div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div class="mb-8">
-            <a href="{{ route('qualifications.index') }}"
-                class="inline-flex items-center text-sm text-[#2C3BEB] hover:underline mb-4">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Back to Qualifications
-            </a>
-            <h1 class="text-3xl font-bold text-gray-900">Scholarship Recommendations</h1>
-            <p class="text-sm text-gray-500 mt-1">Based on your academic profile, here are the top scholarships that
-                match your qualifications.</p>
+<x-app-layout headerTitle="Recommendations">
+    <div class="max-w-5xl mx-auto pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 text-center flex flex-col items-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Recommendations</h1>
+            <p class="text-base text-gray-500 mt-2 max-w-2xl">Based on your academic profile, here are the top scholarships that match your qualifications.</p>
         </div>
 
         @if($recommendations === null)
@@ -39,12 +30,13 @@
                         <div class="p-6 flex-1 flex flex-col">
                             <div class="flex items-center justify-between mb-4">
                                 <span
-                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700">
                                     Match Score: {{ number_format($scholarship['score'], 0) }}%
                                 </span>
-                                @if($index === 0)
-                                    <span class="text-xs font-bold text-[#2C3BEB] bg-blue-50 px-2 py-1 rounded">Top Match</span>
-                                @endif
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $scholarship['score'] == 100 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    {{ $scholarship['score'] == 100 ? 'Eligible' : 'Not Eligible' }}
+                                </span>
                             </div>
 
                             <h3 class="text-lg font-bold text-gray-900 mb-2 leading-tight">
@@ -93,12 +85,19 @@
                                 </div>
                             @endif
 
-                            <div class="mt-auto pt-4 border-t border-gray-100">
-                                <a href="#" target="_blank"
-                                    class="block w-full text-center bg-[#2C3BEB] hover:bg-[#2130d4] text-white font-medium py-2.5 px-4 rounded-lg transition duration-150">
-                                    Apply Now
-                                </a>
-                            </div>
+                            @if($scholarship['score'] == 100)
+                                <div class="mt-auto pt-4 border-t border-gray-100">
+                                    <form method="POST" action="{{ route('applications.apply') }}" class="apply-form">
+                                        @csrf
+                                        <input type="hidden" name="scholarship_name" value="{{ $scholarship['name'] }}">
+                                        <input type="hidden" name="apply_url" value="{{ $scholarship['apply_url'] }}">
+                                        <button type="submit"
+                                            class="block w-full text-center bg-[#2C3BEB] hover:bg-[#2130d4] text-white font-medium py-2.5 px-4 rounded-lg transition duration-150">
+                                            Apply Now
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @endforeach
@@ -121,4 +120,28 @@
             </div>
         @endif
     </div>
+
+    <script>
+        document.querySelectorAll('.apply-form').forEach(function (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const applyUrl  = form.querySelector('[name="apply_url"]').value;
+                const csrfToken = form.querySelector('[name="_token"]').value;
+                const formData  = new FormData(form);
+
+                // Record the application via AJAX, then open the external URL in a new tab
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
+                }).finally(function () {
+                    window.open(applyUrl, '_blank');
+                });
+            });
+        });
+    </script>
 </x-app-layout>

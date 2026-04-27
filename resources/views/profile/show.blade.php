@@ -1,78 +1,86 @@
-<x-app-layout>
+<x-app-layout headerTitle="My Profile">
     <div class="max-w-4xl mx-auto">
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900">My Profile</h1>
-                <p class="text-sm text-gray-500 mt-1">View your account details and information.</p>
-            </div>
+        <div class="mb-10 text-center flex flex-col items-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">My Profile</h1>
+            <p class="text-base text-gray-500 mt-2 max-w-2xl">View your account details and personal information.</p>
         </div>
 
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-3">
                 
-                <!-- Common Fields -->
-                <div class="space-y-1">
-                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Full Name</label>
-                    <p class="text-gray-900 font-medium">{{ $user->name }}</p>
+                <!-- Full Name -->
+                <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Full Name</label>
+                    <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->name }}</p>
                 </div>
 
-                <div class="space-y-1">
-                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Email Address</label>
-                    <p class="text-gray-900 font-medium">{{ $user->email }}</p>
+                <!-- Email Address -->
+                <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Email Address</label>
+                    <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->email }}</p>
                 </div>
 
-                <div class="space-y-1">
-                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Phone Number</label>
-                    <p class="text-gray-900 font-medium">{{ $user->phone_num ?? 'Not provided' }}</p>
+                <!-- Phone Number -->
+                <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Phone Number</label>
+                    <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->phone_num ?? 'Not provided' }}</p>
+                </div>
+
+                <!-- Password -->
+                <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Password</label>
+                    <p class="text-sm font-medium text-gray-900 leading-tight">••••••••</p>
                 </div>
 
                 @if($user->role === 'student')
-                    <!-- Student Specific Fields -->
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Gender</label>
-                        <p class="text-gray-900 font-medium capitalize">{{ $user->gender ?? 'Not provided' }}</p>
+                    <!-- Gender -->
+                    <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Gender</label>
+                        <p class="text-sm font-medium text-gray-900 leading-tight capitalize">{{ $user->gender ?? 'Not provided' }}</p>
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Marital Status</label>
-                        <p class="text-gray-900 font-medium capitalize">{{ $user->marital_status ?? 'Not provided' }}</p>
+                    <!-- Marital Status -->
+                    <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Marital Status</label>
+                        <p class="text-sm font-medium text-gray-900 leading-tight capitalize">{{ $user->marital_status ?? 'Not provided' }}</p>
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Nationality</label>
-                        <p class="text-gray-900 font-medium">{{ $user->nationality ?? 'Not provided' }}</p>
+                    <!-- Nationality -->
+                    <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Nationality</label>
+                        <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->nationality ?? 'Not provided' }}</p>
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Birth State</label>
-                        <p class="text-gray-900 font-medium">{{ $user->birth_state ?? 'Not provided' }}</p>
+                    <!-- Birth State -->
+                    <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Birth State</label>
+                        <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->birth_state ?? 'Not provided' }}</p>
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Date of Birth</label>
-                        <p class="text-gray-900 font-medium">{{ $user->dob ?? 'Not provided' }}</p>
+                    <!-- Date of Birth -->
+                    <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Date of Birth</label>
+                        <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->dob ?? 'Not provided' }}</p>
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Study Location</label>
-                        <p class="text-gray-900 font-medium">{{ $user->study_location ?? 'Not provided' }}</p>
+                    <!-- Study Location -->
+                    <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Study Location</label>
+                        <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->study_location ?? 'Not provided' }}</p>
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Place of Study</label>
-                        <p class="text-gray-900 font-medium">{{ $user->place_of_study ?? 'Not provided' }}</p>
+                    <!-- Place of Study -->
+                    <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Place of Study</label>
+                        <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->place_of_study ?? 'Not provided' }}</p>
                     </div>
 
-                    <div class="md:col-span-2 space-y-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Residential Address</label>
-                        <p class="text-gray-900 font-medium">{{ $user->address ?? 'Not provided' }}</p>
+                    <!-- Address -->
+                    <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Residential Address</label>
+                        <p class="text-sm font-medium text-gray-900 leading-tight">{{ $user->address ?? 'Not provided' }}</p>
                     </div>
                 @endif
-
-                <div class="space-y-1">
-                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Password</label>
-                    <p class="text-gray-900 font-medium">••••••••</p>
-                </div>
 
             </div>
 

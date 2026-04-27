@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout headerTitle="Sign Up">
     <h2 id="signup-title" class="font-bold text-gray-900 mb-1" style="font-size: 2rem;">Create Student</h2>
     <p class="text-sm text-blue-600 mb-6">Join our community of scholars today.</p>
 

@@ -1,10 +1,8 @@
-<x-app-layout>
+<x-app-layout headerTitle="Scholarship Information">
     <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900">Scholarship Information</h1>
-            <p class="text-sm text-gray-500 mt-1">Browse and filter available scholarship opportunities.</p>
-        </div>
+    <div class="flex flex-col items-center justify-center text-center mb-10 gap-2">
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Information</h1>
+        <p class="text-base text-gray-500 max-w-2xl">Browse and filter available scholarship opportunities customized to your profile.</p>
     </div>
 
     <!-- Dashboard Layout: 2 Columns -->
@@ -144,7 +142,7 @@
                             
                             <!-- Action Buttons -->
                             <div class="mt-6 z-10 flex flex-col gap-2 border-t border-gray-100 pt-5">
-                                <a href="{{ route('scholarships.show', $scholarship->id) }}" class="block w-full py-2.5 bg-gray-50 border border-gray-200 hover:bg-[#2C3BEB] hover:text-white hover:border-[#2C3BEB] text-gray-800 text-center font-bold text-sm rounded-lg transition-all">
+                                <a href="{{ route('scholarships.show', $scholarship->id) }}" class="block w-full py-2.5 bg-[#2C3BEB] hover:bg-[#2130d4] text-white text-center font-bold text-sm rounded-lg transition-all">
                                     View Detailed Requirements
                                 </a>
                                 

@@ -5,7 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'ScholarshipAdvisor') }}</title>
+        <title>@isset($headerTitle) {{ $headerTitle }} | @endisset {{ config('app.name', 'ScholarshipAdvisor') }}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,21 +25,7 @@
                 box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             }
 
-            /* User menu button hover effect */
-            #user-menu-trigger {
-                padding: 6px 12px;
-                border-radius: 8px;
-                transition: all 0.2s ease;
-            }
-            #user-menu-trigger:hover {
-                background-color: #000000;
-            }
-            #user-menu-trigger:hover .user-name {
-                color: #ffffff;
-            }
-            #user-menu-trigger:hover .user-role {
-                color: #d1d5db;
-            }
+
 
             /* Dropdown animation */
             .user-dropdown {
@@ -73,14 +62,39 @@
             }
             .user-dropdown a:hover,
             .user-dropdown button:hover {
-                background: #F9FAFB;
+                background: #EFF6FF; /* Soft light blue */
+                color: #2C3BEB; /* Brand blue text on hover */
+            }
+            /* Role-based backgrounds */
+            .bg-student {
+                background: #F0F2F5;
+            }
+            .bg-admin {
+                background: radial-gradient(circle at center, #CBDCEB 0%, #608BC1 100%) fixed;
+            }
+
+            /* Loose text readability adjustments */
+            .bg-student h1:not(.bg-white h1), 
+            .bg-student h2:not(.bg-white h2) {
+                color: #000000 !important;
+            }
+            .bg-student p:not(.bg-white p) {
+                color: #374151 !important; /* Keeping paragraphs slightly softer gray for better readability */
+            }
+            
+            .bg-admin h1:not(.bg-white h1), 
+            .bg-admin h2:not(.bg-white h2) {
+                color: #000000 !important;
+            }
+            .bg-admin p:not(.bg-white p) {
+                color: #374151 !important;
             }
         </style>
     </head>
-    <body class="antialiased bg-[#F0F2F5]">
+    <body class="antialiased min-h-screen {{ Auth::user() && Auth::user()->role === 'admin' ? 'bg-admin' : 'bg-student' }}">
 
         <!-- Navigation Bar -->
-        <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <nav class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
 
@@ -108,6 +122,10 @@
                                    class="text-sm font-medium {{ request()->routeIs('qualifications.recommendations') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
                                     Recommendations
                                 </a>
+                                <a href="{{ route('applications.index') }}"
+                                   class="text-sm font-medium {{ request()->routeIs('applications.index') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                    Application
+                                </a>
                             @endif
 
                             @if(Auth::check() && Auth::user()->role === 'admin')
@@ -119,6 +137,10 @@
                                    class="text-sm font-medium {{ request()->routeIs('scholarships.create') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
                                     Create Scholarship
                                 </a>
+                                <a href="{{ route('admin.students.index') }}"
+                                   class="text-sm font-medium {{ request()->routeIs('admin.students.*') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                    Students
+                                </a>
                             @endif
                         </div>
                     </div>
@@ -128,10 +150,10 @@
                         <button
                             id="user-menu-trigger"
                             onclick="toggleUserMenu()"
-                            class="flex flex-col items-end focus:outline-none cursor-pointer"
+                            class="flex flex-col items-center justify-center px-4 py-1.5 bg-white border border-blue-200 rounded-xl hover:bg-blue-50 transition-all cursor-pointer shadow-sm group"
                         >
-                            <span class="text-sm font-semibold text-gray-900 leading-tight user-name transition-colors">{{ Auth::user()->name }}</span>
-                            <span class="text-xs font-medium text-gray-400 capitalize user-role transition-colors">{{ Auth::user()->role }}</span>
+                            <span class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors">{{ Auth::user()->name }}</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'admin' ? 'Admin' : 'Student' }}</span>
                         </button>
 
                         <!-- Dropdown Menu -->

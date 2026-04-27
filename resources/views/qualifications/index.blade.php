@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout headerTitle="Qualifications">
     @php
         $malaysianStates = [
             'Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan', 'Pahang', 'Perak', 'Perlis', 
@@ -7,12 +7,10 @@
             'Outside Malaysia'
         ];
     @endphp
-    <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900">Qualifications</h1>
-                <p class="text-sm text-gray-500 mt-1">Update your academic qualifications to get personalized scholarship recommendations.</p>
-            </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center text-center mb-10 gap-2">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Qualifications</h1>
+            <p class="text-base text-gray-500 max-w-2xl">Update your academic qualifications to get personalized scholarship recommendations.</p>
         </div>
 
         <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
@@ -229,8 +227,8 @@
                     <button type="button" onclick="addCgpaRow()" class="mt-2 text-xs font-semibold text-[#2C3BEB] hover:text-[#2130d4]">+ Add Education Level</button>
                 </div>
 
-                <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-50">
-                    <x-primary-button class="bg-[#2C3BEB] hover:bg-[#2130d4] text-lg px-8 py-3">{{ __('Filter Qualifications') }}</x-primary-button>
+                <div class="flex items-center justify-center gap-4 pt-4 border-t border-gray-50">
+                    <x-primary-button class="!bg-[#2C3BEB] hover:!bg-[#2130d4] text-lg px-8 py-3">{{ __('Filter Qualifications') }}</x-primary-button>
                 </div>
             </form>
         </div>

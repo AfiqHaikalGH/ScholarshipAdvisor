@@ -1,8 +1,9 @@
-<x-app-layout>
-    <div class="max-w-4xl mx-auto py-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Create Scholarship</h1>
-        <p class="text-sm text-gray-500 mb-8">Enter the detailed requirements and information for a new scholarship
-            offering.</p>
+<x-app-layout headerTitle="Create Scholarship">
+    <div class="max-w-4xl mx-auto">
+        <div class="mb-10 text-center flex flex-col items-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Create Scholarship</h1>
+            <p class="text-base text-gray-500 mt-2 max-w-2xl">Enter the detailed requirements and information for a new scholarship offering.</p>
+        </div>
 
         @if(session('success'))
             <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm font-medium">

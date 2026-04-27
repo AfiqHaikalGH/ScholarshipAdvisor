@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ScholarshipController;
+use App\Http\Controllers\Admin\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +24,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/scholarship-info', [\App\Http\Controllers\ScholarshipInfoController::class, 'index'])->name('scholarship.info');
     Route::get('/scholarships/{id}', [\App\Http\Controllers\ScholarshipInfoController::class, 'show'])->name('scholarships.show');
 
-    // Dashboard (legacy)
+    // Dashboard (legacy) — redirect to main scholarship page
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return redirect()->route('scholarship.info');
     })->name('dashboard');
 
     // Profile
@@ -37,6 +39,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/qualifications', [\App\Http\Controllers\QualificationController::class, 'index'])->name('qualifications.index');
     Route::post('/qualifications/filter', [\App\Http\Controllers\QualificationController::class, 'filter'])->name('qualifications.filter');
     Route::get('/recommendations', [\App\Http\Controllers\QualificationController::class, 'recommendations'])->name('qualifications.recommendations');
+
+    // Applications (student)
+    Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
+    Route::post('/applications/apply', [ApplicationController::class, 'apply'])->name('applications.apply');
 
     // Admin-only routes
     Route::prefix('admin')->group(function () {
@@ -57,6 +63,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/scholarships/{id}/edit', [ScholarshipController::class, 'edit'])->name('scholarships.edit');
         Route::put('/scholarships/{id}', [ScholarshipController::class, 'update'])->name('scholarships.update');
         Route::delete('/scholarships/{id}', [ScholarshipController::class, 'destroy'])->name('scholarships.destroy');
+
+        // Student Management
+        Route::get('/students', [StudentController::class, 'index'])->name('admin.students.index');
+        Route::get('/students/{user}/applications', [StudentController::class, 'applications'])->name('admin.students.applications');
+        Route::patch('/applications/{application}/status', [StudentController::class, 'updateStatus'])->name('admin.applications.updateStatus');
     });
 });
 

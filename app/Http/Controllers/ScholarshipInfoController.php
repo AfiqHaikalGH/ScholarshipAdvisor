@@ -25,17 +25,18 @@ class ScholarshipInfoController extends Controller
             $query->where('provider', $request->provider);
         }
 
-        // 3. Education Level AND Place of Study
-        if ($request->filled('level') || $request->filled('location')) {
-            $query->whereHas('scholarshipLevels', function($q) use ($request) {
-                if ($request->filled('level')) {
-                    $q->whereIn('education_level', $request->level);
-                }
-                
-                if ($request->filled('location') && $request->location !== 'All') {
-                    $q->where('additional_requirements->place_of_study', 'like', "%{$request->location}%");
+        // 3. Education Level
+        if ($request->filled('level')) {
+            $query->where(function($q) use ($request) {
+                foreach ((array) $request->level as $level) {
+                    $q->orWhereJsonContains('programme_levels', $level);
                 }
             });
+        }
+
+        // 4. Place of Study
+        if ($request->filled('location') && $request->location !== 'All') {
+            $query->where('place_of_study', 'like', "%{$request->location}%");
         }
 
         // Fetch paginated results ordered by latest

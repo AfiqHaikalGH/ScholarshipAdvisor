@@ -1,7 +1,9 @@
-<x-app-layout>
-    <div class="max-w-4xl mx-auto py-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Edit Scholarship</h1>
-        <p class="text-sm text-gray-500 mb-8">Modify the detailed requirements and information for this scholarship.</p>
+<x-app-layout headerTitle="Edit Scholarship">
+    <div class="max-w-4xl mx-auto">
+        <div class="mb-10 text-center flex flex-col items-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Edit Scholarship</h1>
+            <p class="text-base text-gray-500 mt-2 max-w-2xl">Modify the detailed requirements and information for this scholarship.</p>
+        </div>
 
         @if(session('success'))
             <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm font-medium">

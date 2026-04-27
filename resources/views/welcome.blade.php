@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ScholarshipAdvisor - Find Your Perfect Scholarship</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +27,7 @@
 <body class="text-gray-800 antialiased flex flex-col min-h-screen">
 
     <!-- Top Navigation Bar -->
-    <header class="w-full bg-white border-b border-gray-200 sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
@@ -37,7 +40,7 @@
                 <nav class="flex items-center gap-6">
                     <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
                     @auth
-                        <a href="{{ url('/dashboard') }}"
+                        <a href="{{ route('scholarship.info') }}"
                             class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}"

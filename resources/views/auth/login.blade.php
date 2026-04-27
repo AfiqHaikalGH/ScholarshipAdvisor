@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout headerTitle="Log In">
     <h2 class="text-2xl font-bold text-gray-900 mb-6">Log In</h2>
 
     <!-- Session Status -->

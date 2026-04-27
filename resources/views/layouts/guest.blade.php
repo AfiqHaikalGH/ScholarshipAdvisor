@@ -5,7 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'ScholarshipAdvisor') }}</title>
+        <title>@isset($headerTitle) {{ $headerTitle }} | @endisset {{ config('app.name', 'ScholarshipAdvisor') }}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +24,7 @@
     <body class="antialiased bg-[#F0F2F5]">
 
         <!-- Top Navigation Bar -->
-        <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <header class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <!-- Logo -->

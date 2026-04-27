@@ -129,14 +129,36 @@ class QualificationController extends Controller
 
         $recommendations = $cached->map(function ($r) {
             return [
-                'name' => $r->scholarship_name,
-                'score' => $r->score,
-                'matches' => $r->matches ?? [],
-                'missing' => $r->missing ?? [],
+                'name'      => $r->scholarship_name,
+                'score'     => $r->score,
+                'matches'   => $r->matches ?? [],
+                'missing'   => $r->missing ?? [],
+                'apply_url' => $this->getApplyUrl($r->scholarship_name),
             ];
         })->toArray();
 
         return view('qualifications.recommendations', compact('recommendations'));
+    }
+
+    /**
+     * Map scholarship names to their respective application portal URLs.
+     */
+    private function getApplyUrl(string $name): string
+    {
+        $urls = [
+            'Biasiswa Perdana - Biasiswa Kerajaan Negeri Sabah' => 'https://ptps.sabah.gov.my/public-bkns/authentication/register.php',
+            'Biasiswa Cemerlang Negeri Sabah (BCNS)' => 'https://ptps.sabah.gov.my/public-bkns/authentication/register.php',
+            'Biasiswa Cemerlang Pelajar Luar Bandar (BCPLP)' => 'https://ptps.sabah.gov.my/yayasan-sabah/register',
+            'Biasiswa Skim Pelajar Cemerlang Yayasan Terengganu' => 'https://ytpenajaan.terengganu.gov.my/register',
+            "Biasiswa Khas Dato' Menteri Besar Selangor" => 'https://edanapendidikan.selangor.gov.my/register',
+            'Biasiswa Sarawak Tunku Abdul Rahman (YBSTAR)' => 'https://yayasansarawak.org.my/my/laman-utama/',
+            'Pinjaman Boleh Ubah Luar Negara (PBULN)' => 'https://edanapendidikan.selangor.gov.my/login',
+            'Khazanah Watan Scholarship Program' => 'https://www.yayasankhazanah.com.my/apply-now',
+            'Kijang Undergraduate Scholarship' => 'https://www.bnm.gov.my/careers/scholarships',
+            'YSD Undergraduate Excellence Scholarship' => 'https://www.yayasansimedarby.com/scholarship-information',
+        ];
+
+        return $urls[$name] ?? '#';
     }
 
     // ─── Helper Methods ──────────────────────────────────────────────
