@@ -23,6 +23,7 @@ class Qualification extends Model
         'spm_results',
         'stpm_results',
         'muet_band',
+        'cefr',
         'diploma_cgpa',
         'stpm_cgpa',
         'foundation_cgpa',

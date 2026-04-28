@@ -197,6 +197,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div>
+                            <x-input-label for="cefr" :value="__('CEFR English level')" />
+                            <select id="cefr" name="cefr" class="mt-1 block w-full border-gray-300 focus:border-[#2C3BEB] focus:ring-[#2C3BEB] rounded-md shadow-sm">
+                                <option value="">Select CEFR Level</option>
+                                @foreach(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as $level)
+                                    <option value="{{ $level }}" {{ old('cefr', $qualification->cefr) == $level ? 'selected' : '' }}>{{ $level }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     
                     <h3 class="text-lg font-medium text-gray-700 mt-6 mb-3">CGPA Records</h3>

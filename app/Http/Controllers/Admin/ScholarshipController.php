@@ -114,6 +114,7 @@ class ScholarshipController extends Controller
                     'min_spm_result' => $educationLevel['min_spm_result'] ?? null,
                     'spm_subjects' => empty($spmSubjects) ? null : $spmSubjects,
                     'field_of_study' => $educationLevel['field_of_study'] ?? null,
+                    'cefr' => $educationLevel['cefr'] ?? null,
                     'additional_requirements' => $educationLevel['additional_requirements'] ?? null,
                 ], fn($value) => !is_null($value) && $value !== '');
 
@@ -246,6 +247,7 @@ class ScholarshipController extends Controller
                     'min_spm_result' => $educationLevel['min_spm_result'] ?? null,
                     'spm_subjects' => empty($spmSubjects) ? null : $spmSubjects,
                     'field_of_study' => $educationLevel['field_of_study'] ?? null,
+                    'cefr' => $educationLevel['cefr'] ?? null,
                     'additional_requirements' => $educationLevel['additional_requirements'] ?? null,
                 ], fn($value) => !is_null($value) && $value !== '');
 

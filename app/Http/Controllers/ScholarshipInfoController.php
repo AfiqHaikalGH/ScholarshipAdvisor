@@ -29,7 +29,7 @@ class ScholarshipInfoController extends Controller
         if ($request->filled('level')) {
             $query->where(function($q) use ($request) {
                 foreach ((array) $request->level as $level) {
-                    $q->orWhereJsonContains('programme_levels', $level);
+                    $q->orWhere('level', 'like', "%{$level}%");
                 }
             });
         }

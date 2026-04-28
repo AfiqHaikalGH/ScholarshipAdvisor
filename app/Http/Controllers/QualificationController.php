@@ -31,6 +31,7 @@ class QualificationController extends Controller
             'current_bachelor_cgpa' => 'nullable|numeric',
             'research_proposal' => 'nullable|boolean',
             'muet_band' => 'nullable|string',
+            'cefr' => 'nullable|string|in:A1,A2,B1,B2,C1,C2',
         ]);
 
         // Auto-compute income category server-side
