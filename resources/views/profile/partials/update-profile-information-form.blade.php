@@ -119,8 +119,8 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-4 pt-4 border-t border-gray-50">
-            <x-primary-button class="bg-[#2C3BEB] hover:bg-[#2130d4]">{{ __('Save Changes') }}</x-primary-button>
+        <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-50">
+            <x-primary-button class="!bg-[#2C3BEB] hover:!bg-[#2130d4]">{{ __('Save Changes') }}</x-primary-button>
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">{{ __('Saved.') }}</p>
             @endif

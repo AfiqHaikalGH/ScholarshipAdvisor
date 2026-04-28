@@ -39,10 +39,10 @@
                                 Deadline
                             </th>
                             <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">
-                                Action
+                                Application Status
                             </th>
                             <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">
-                                Status
+                                Acceptance Status
                             </th>
                         </tr>
                     </thead>
@@ -53,8 +53,9 @@
                                     'Pending'  => 'bg-yellow-100 text-yellow-800',
                                     'Accepted' => 'bg-green-100 text-green-800',
                                     'Rejected' => 'bg-red-100 text-red-800',
+                                    'Not Applied' => 'bg-gray-100 text-gray-500',
                                 ];
-                                $statusClass = $statusColors[$scholarship['acceptance_status'] ?? ''] ?? 'bg-gray-100 text-gray-500';
+                                $statusClass = $statusColors[$scholarship['acceptance_status'] ?? 'Not Applied'] ?? 'bg-gray-100 text-gray-500';
                             @endphp
                             <tr class="hover:bg-gray-50 transition duration-100">
                                 <td class="px-6 py-4 font-medium text-gray-900">
@@ -75,13 +76,9 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    @if($scholarship['acceptance_status'])
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $statusClass }}">
-                                            {{ $scholarship['acceptance_status'] }}
-                                        </span>
-                                    @else
-                                        <span class="text-gray-400 text-xs">—</span>
-                                    @endif
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $statusClass }}">
+                                        {{ $scholarship['acceptance_status'] ?? 'Not Applied' }}
+                                    </span>
                                 </td>
                             </tr>
                         @endforeach
