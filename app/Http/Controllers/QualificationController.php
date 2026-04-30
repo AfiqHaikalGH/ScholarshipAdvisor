@@ -123,18 +123,25 @@ class QualificationController extends Controller
 
     public function recommendations()
     {
-        $cached = Recommendation::where('user_id', auth()->id())->orderBy('rank')->get();
+        $userId = auth()->id();
+        $cached = Recommendation::where('user_id', $userId)->orderBy('rank')->get();
         if ($cached->isEmpty()) {
             return view('qualifications.recommendations', ['recommendations' => null]);
         }
 
-        $recommendations = $cached->map(function ($r) {
+        // Get user's current applications to mark as "Already Applied"
+        $applications = \App\Models\Application::where('user_id', $userId)
+            ->pluck('scholarship_name')
+            ->toArray();
+
+        $recommendations = $cached->map(function ($r) use ($applications) {
             return [
                 'name'      => $r->scholarship_name,
                 'score'     => $r->score,
                 'matches'   => $r->matches ?? [],
                 'missing'   => $r->missing ?? [],
                 'apply_url' => $this->getApplyUrl($r->scholarship_name),
+                'applied'   => in_array($r->scholarship_name, $applications),
             ];
         })->toArray();
 

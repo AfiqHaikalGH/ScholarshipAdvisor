@@ -91,10 +91,18 @@
                                         @csrf
                                         <input type="hidden" name="scholarship_name" value="{{ $scholarship['name'] }}">
                                         <input type="hidden" name="apply_url" value="{{ $scholarship['apply_url'] }}">
-                                        <button type="submit"
-                                            class="block w-full text-center bg-[#2C3BEB] hover:bg-[#2130d4] text-white font-medium py-2.5 px-4 rounded-lg transition duration-150">
-                                            Apply Now
-                                        </button>
+                                        
+                                        @if($scholarship['applied'])
+                                            <button type="button"
+                                                class="block w-full text-center bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg cursor-default">
+                                                Applied
+                                            </button>
+                                        @else
+                                            <button type="submit"
+                                                class="block w-full text-center bg-[#2C3BEB] hover:bg-[#2130d4] text-white font-medium py-2.5 px-4 rounded-lg transition duration-150">
+                                                Apply Now
+                                            </button>
+                                        @endif
                                     </form>
                                 </div>
                             @endif
