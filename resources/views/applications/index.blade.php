@@ -3,7 +3,7 @@
 
         {{-- Page Header --}}
         <div class="mb-10 text-center flex flex-col items-center">
-            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Applications</h1>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Applications</h1>
             <p class="text-base text-gray-500 mt-2 max-w-2xl">
                 All scholarships you are eligible for (100% match) and their application status.
             </p>

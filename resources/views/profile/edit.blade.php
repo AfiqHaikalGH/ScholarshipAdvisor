@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto">
         <div class="flex flex-col items-center text-center mb-10 gap-2">
-            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Update Profile</h1>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Update Profile</h1>
             <p class="text-base text-gray-500 max-w-2xl">Update your personal information and account settings.</p>
         </div>
 

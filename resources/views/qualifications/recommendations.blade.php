@@ -1,7 +1,7 @@
 <x-app-layout headerTitle="Recommendations">
     <div class="max-w-5xl mx-auto pb-8 px-4 sm:px-6 lg:px-8">
         <div class="mb-10 text-center flex flex-col items-center">
-            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Recommendations</h1>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Recommendations</h1>
             <p class="text-base text-gray-500 mt-2 max-w-2xl">Based on your academic profile, here are the top scholarships that match your qualifications.</p>
         </div>
 
