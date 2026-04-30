@@ -126,20 +126,42 @@
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
 
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerText;
                 const applyUrl  = form.querySelector('[name="apply_url"]').value;
                 const csrfToken = form.querySelector('[name="_token"]').value;
                 const formData  = new FormData(form);
 
-                // Record the application via AJAX, then open the external URL in a new tab
-                fetch(form.action, {
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Processing...';
+
+                // Record the application via AJAX (relative path to avoid https/http issues)
+                fetch('/applications/apply', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,
                         'Accept': 'application/json',
                     },
                     body: formData,
-                }).finally(function () {
-                    window.open(applyUrl, '_blank');
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        submitBtn.innerText = 'Applied';
+                        submitBtn.classList.remove('bg-[#2C3BEB]', 'hover:bg-[#2130d4]');
+                        submitBtn.classList.add('bg-green-600', 'cursor-default');
+                        window.open(applyUrl, '_blank');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalText;
+                    alert('Something went wrong while recording your application. Please try again.');
                 });
             });
         });
