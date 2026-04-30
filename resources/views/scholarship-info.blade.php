@@ -1,7 +1,7 @@
 <x-app-layout headerTitle="Scholarship Information">
     <!-- Header Section -->
-    <div class="flex flex-col items-center justify-center text-center mb-10 gap-2">
-        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Information</h1>
+    <div class="flex flex-col items-center justify-center text-center mb-6 md:mb-10 gap-2">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Information</h1>
         <p class="text-base text-gray-500 max-w-2xl">Browse and filter available scholarship opportunities customized to your profile.</p>
     </div>
 

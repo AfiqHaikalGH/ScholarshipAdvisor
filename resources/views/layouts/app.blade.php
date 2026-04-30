@@ -102,8 +102,8 @@
                     <div class="flex items-center gap-10">
                         <!-- Logo -->
                         <a href="{{ route('scholarship.info') }}" class="flex items-center gap-2">
-                            <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-16 w-auto object-contain" />
-                            <span class="font-bold text-gray-900 text-base">ScholarshipAdvisor</span>
+                            <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-12 md:h-16 w-auto object-contain" />
+                            <span class="font-bold text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
                         </a>
 
                         <!-- Navigation Links -->
@@ -146,8 +146,8 @@
                     </div>
 
                     <!-- Right: User Dropdown & Mobile Menu Button -->
-                    <div class="flex items-center gap-4">
-                        <div class="relative" id="user-menu-wrapper">
+                    <div class="flex items-center gap-2 sm:gap-4">
+                        <div class="hidden md:block relative" id="user-menu-wrapper">
                         <button
                             id="user-menu-trigger"
                             onclick="toggleUserMenu()"
@@ -223,6 +223,19 @@
                             Students
                         </a>
                     @endif
+
+                    <!-- User Profile & Logout (Mobile Only) -->
+                    <div class="border-t border-gray-100 mt-4 pt-4">
+                        <a href="{{ route('profile.show') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                            My Profile
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-700 hover:bg-red-50">
+                                Log Out
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </nav>

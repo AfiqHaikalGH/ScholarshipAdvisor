@@ -29,8 +29,8 @@
                 <div class="flex flex-wrap items-center justify-between h-auto py-3 md:py-0 md:h-16 gap-4">
                     <!-- Logo -->
                     <a href="/" class="flex items-center gap-2">
-                        <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-16 w-auto object-contain" />
-                        <span class="font-bold text-gray-900 text-base">ScholarshipAdvisor</span>
+                        <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-12 md:h-16 w-auto object-contain" />
+                        <span class="font-bold text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
                     </a>
 
                     <!-- Nav Links -->
