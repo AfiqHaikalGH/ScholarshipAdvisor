@@ -26,7 +26,7 @@
         <!-- Top Navigation Bar -->
         <header class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-16">
+                <div class="flex flex-wrap items-center justify-between h-auto py-3 md:py-0 md:h-16 gap-4">
                     <!-- Logo -->
                     <a href="/" class="flex items-center gap-2">
                         <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-16 w-auto object-contain" />
@@ -34,7 +34,7 @@
                     </a>
 
                     <!-- Nav Links -->
-                    <nav class="flex items-center gap-6">
+                    <nav class="flex items-center gap-4 sm:gap-6 w-full md:w-auto justify-end">
                         <!-- Removed Resources -->
                         <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
                         @if (request()->routeIs('login'))
@@ -48,8 +48,8 @@
         </header>
 
         <!-- Main Content -->
-        <main class="min-h-[calc(100vh-57px-48px)] flex items-center justify-center px-6 py-10">
-            <div class="w-full max-w-5xl flex flex-col lg:flex-row items-center lg:items-start gap-12">
+        <main class="min-h-[calc(100vh-57px-48px)] flex items-center justify-center px-4 sm:px-6 py-10">
+            <div class="w-full max-w-5xl flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12">
 
                 <!-- Left Hero Panel -->
                 <div class="flex-1 max-w-md">
