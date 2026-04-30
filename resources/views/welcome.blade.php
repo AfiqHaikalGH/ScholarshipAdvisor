@@ -29,7 +29,7 @@
     <!-- Top Navigation Bar -->
     <header class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex flex-wrap items-center justify-between h-auto py-3 md:py-0 md:h-16 gap-4">
                 <!-- Logo -->
                 <a href="/" class="flex items-center gap-2">
                     <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-16 w-auto object-contain" />
@@ -37,7 +37,7 @@
                 </a>
 
                 <!-- Nav Links -->
-                <nav class="flex items-center gap-6">
+                <nav class="flex items-center gap-4 sm:gap-6 w-full md:w-auto justify-end">
                     <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
                     @auth
                         <a href="{{ route('scholarship.info') }}"
@@ -61,11 +61,11 @@
 
         <!-- Hero Section -->
         <section
-            class="w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24 pt-16 pb-24 flex flex-col-reverse lg:flex-row items-center justify-between gap-16 lg:gap-20">
+            class="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24 pt-10 md:pt-16 pb-16 md:pb-24 flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-20">
 
             <!-- Hero Text -->
             <div class="w-full lg:w-[50%] flex flex-col gap-6 text-center lg:text-left">
-                <h1 class="text-[3.5rem] lg:text-[4rem] font-bold text-[#1A05A2] leading-[1.05] tracking-tight">
+                <h1 class="text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4rem] font-bold text-[#1A05A2] leading-[1.1] tracking-tight">
                     Find Your Perfect Scholarship
                 </h1>
 
@@ -81,7 +81,7 @@
 
                 <div class="pt-4">
                     <a href="{{ route('register') }}"
-                        class="inline-block bg-[#0a1945] hover:bg-[#071336] text-white font-semibold text-[1rem] px-8 py-3.5 rounded-full transition-all shadow-[0_8px_20px_rgba(10,25,69,0.2)] hover:-translate-y-0.5">
+                        class="inline-block bg-[#0a1945] hover:bg-[#071336] text-white font-semibold text-[1rem] px-8 py-3.5 rounded-full transition-all shadow-md hover:-translate-y-0.5">
                         Get Started Now
                     </a>
                 </div>
@@ -103,9 +103,9 @@
         </section>
 
         <!-- CTA Section -->
-        <section class="w-full max-w-[65rem] mx-auto px-8 mb-24 mt-4">
+        <section class="w-full max-w-[65rem] mx-auto px-4 sm:px-8 mb-16 md:mb-24 mt-4">
             <div
-                class="w-full bg-[#1e40a6] rounded-[2.5rem] p-16 md:p-20 text-center text-white relative overflow-hidden shadow-[0_20px_50px_rgba(30,64,166,0.25)]">
+                class="w-full bg-[#1e40a6] rounded-[2.5rem] p-8 sm:p-12 md:p-20 text-center text-white relative overflow-hidden shadow-[0_20px_50px_rgba(30,64,166,0.25)]">
                 <!-- Abstract waves/shapes for background -->
                 <div class="absolute inset-0 overflow-hidden pointer-events-none">
                     <div
@@ -121,8 +121,8 @@
                     </div>
                 </div>
 
-                <div class="relative z-10 flex flex-col items-center gap-10">
-                    <h2 class="text-4xl md:text-[2.75rem] font-bold tracking-tight text-white leading-tight">Ready to
+                <div class="relative z-10 flex flex-col items-center gap-8 md:gap-10">
+                    <h2 class="text-3xl sm:text-4xl md:text-[2.75rem] font-bold tracking-tight text-white leading-tight">Ready to
                         unlock your potential?</h2>
                     <a href="{{ route('register') }}"
                         class="bg-white hover:bg-gray-50 text-[#1e40a6] font-bold text-[1.1rem] px-10 py-4 rounded-full transition-transform hover:scale-105 shadow-[0_10px_20px_rgba(0,0,0,0.1)]">
@@ -137,7 +137,7 @@
     <!-- Footer Section -->
     <footer class="w-full border-t border-gray-200 bg-[#FAFAFB]">
         <div
-            class="w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24 py-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            class="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24 py-10 flex flex-col md:flex-row items-center justify-between gap-8">
 
             <div class="flex flex-col items-center md:items-start gap-1">
                 <span class="text-[1.05rem] font-extrabold text-[#1a1a1a] tracking-tight">ScholarshipAdvisor</span>
