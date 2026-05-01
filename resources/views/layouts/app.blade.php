@@ -94,12 +94,12 @@
     <body class="antialiased min-h-screen {{ Auth::user() && Auth::user()->role === 'admin' ? 'bg-admin' : 'bg-student' }}">
 
         <!-- Navigation Bar -->
-        <nav x-data="{ mobileMenuOpen: false }" class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
+        <nav x-data="{ mobileMenuOpen: false }" class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 xl:mx-10 rounded-2xl shadow-md transition-all">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
 
                     <!-- Left: Logo + Nav Links -->
-                    <div class="flex items-center gap-10">
+                    <div class="flex items-center gap-4 xl:gap-10">
                         <!-- Logo -->
                         <a href="{{ route('scholarship.info') }}" class="flex items-center gap-2">
                             <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-12 md:h-16 w-auto object-contain" />
@@ -107,7 +107,7 @@
                         </a>
 
                         <!-- Navigation Links -->
-                        <div class="hidden md:flex items-center gap-6">
+                        <div class="hidden xl:flex items-center gap-6">
                             <a href="{{ route('scholarship.info') }}"
                                class="text-sm font-medium {{ request()->routeIs('scholarship.info') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
                                 Scholarship Information
@@ -147,13 +147,13 @@
 
                     <!-- Right: User Dropdown & Mobile Menu Button -->
                     <div class="flex items-center gap-2 sm:gap-4">
-                        <div class="hidden md:block relative" id="user-menu-wrapper">
+                        <div class="hidden xl:block relative" id="user-menu-wrapper">
                         <button
                             id="user-menu-trigger"
                             onclick="toggleUserMenu()"
                             class="flex flex-col items-center justify-center px-4 py-1.5 bg-white border border-blue-200 rounded-xl hover:bg-blue-50 transition-all cursor-pointer shadow-sm group"
                         >
-                            <span class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors">{{ Auth::user()->name }}</span>
+                            <span class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors truncate max-w-[150px]">{{ Auth::user()->name }}</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'admin' ? 'Admin' : 'Student' }}</span>
                         </button>
 
@@ -175,7 +175,7 @@
                     </div>
 
                     <!-- Hamburger Button (Mobile) -->
-                    <div class="flex items-center md:hidden">
+                    <div class="flex items-center xl:hidden">
                         <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-500 hover:text-gray-700 focus:outline-none p-2 rounded-md border border-gray-200 hover:bg-gray-50">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path :class="{'hidden': mobileMenuOpen, 'inline-flex': !mobileMenuOpen }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -187,7 +187,7 @@
             </div>
 
             <!-- Mobile Menu Dropdown -->
-            <div x-show="mobileMenuOpen" x-transition class="md:hidden border-t border-gray-200 bg-white/95 rounded-b-2xl absolute w-full left-0 top-full shadow-lg overflow-hidden">
+            <div x-show="mobileMenuOpen" x-transition class="xl:hidden border-t border-gray-200 bg-white/95 rounded-b-2xl absolute w-full left-0 top-full shadow-lg overflow-hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <a href="{{ route('scholarship.info') }}"
                        class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('scholarship.info') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
@@ -225,8 +225,12 @@
                     @endif
 
                     <!-- User Profile & Logout (Mobile Only) -->
-                    <div class="border-t border-gray-100 mt-4 pt-4">
-                        <a href="{{ route('profile.show') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                    <div class="border-t border-gray-100 mt-4 pt-4 px-3 pb-2">
+                        <div class="flex flex-col mb-4">
+                            <span class="text-sm font-bold text-gray-900">{{ Auth::user()->name }}</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ Auth::user()->role === 'admin' ? 'Admin' : 'Student' }}</span>
+                        </div>
+                        <a href="{{ route('profile.show') }}" class="block py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
                             My Profile
                         </a>
                         <form method="POST" action="{{ route('logout') }}">

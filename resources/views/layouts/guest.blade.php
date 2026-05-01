@@ -24,9 +24,9 @@
     <body class="antialiased bg-[#F0F2F5]">
 
         <!-- Top Navigation Bar -->
-        <header class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
+        <header class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 xl:mx-10 rounded-2xl shadow-md transition-all">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-wrap items-center justify-between h-auto py-3 md:py-0 md:h-16 gap-4">
+                <div class="flex flex-wrap items-center justify-between h-auto py-3 xl:py-0 xl:h-16 gap-4">
                     <!-- Logo -->
                     <a href="/" class="flex items-center gap-2">
                         <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-12 md:h-16 w-auto object-contain" />
@@ -34,7 +34,7 @@
                     </a>
 
                     <!-- Nav Links -->
-                    <nav class="flex items-center gap-4 sm:gap-6 w-full md:w-auto justify-end">
+                    <nav class="flex items-center gap-4 sm:gap-6 w-full xl:w-auto justify-end">
                         <!-- Removed Resources -->
                         <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
                         @if (request()->routeIs('login'))
