@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Qualification;
 use App\Models\Recommendation;
 use Carbon\Carbon;
@@ -12,7 +13,8 @@ class QualificationController extends Controller
     public function index()
     {
         $qualification = auth()->user()->qualification ?? new Qualification();
-        return view('qualifications.index', compact('qualification'));
+        $hasApplied = Application::where('user_id', auth()->id())->exists();
+        return view('qualifications.index', compact('qualification', 'hasApplied'));
     }
 
     public function filter(Request $request)
