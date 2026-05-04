@@ -53,7 +53,11 @@
             <!-- Nationality -->
             <div>
                 <x-input-label for="nationality" :value="__('Nationality')" />
-                <x-text-input id="nationality" name="nationality" type="text" class="mt-1 block w-full" :value="old('nationality', $user->nationality)" placeholder="e.g. United States" />
+                <select id="nationality" name="nationality" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition">
+                    <option value="" disabled {{ old('nationality', $user->nationality) ? '' : 'selected' }}>Select Nationality</option>
+                    <option value="Malaysian" {{ old('nationality', $user->nationality) == 'Malaysian' ? 'selected' : '' }}>Malaysian</option>
+                    <option value="Non-Malaysian" {{ old('nationality', $user->nationality) == 'Non-Malaysian' ? 'selected' : '' }}>Non-Malaysian</option>
+                </select>
                 <x-input-error class="mt-2" :messages="$errors->get('nationality')" />
             </div>
 
