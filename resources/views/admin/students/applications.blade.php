@@ -12,8 +12,10 @@
                 Back to Students
             </a>
 
-            <h1 class="text-3xl font-bold text-gray-900">{{ $user->name }}'s Applications</h1>
-            <p class="text-sm text-gray-500 mt-1">{{ $user->email }}</p>
+        <div class="mb-10 text-center flex flex-col items-center">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">{{ $user->name }}'s Applications</h1>
+            <p class="text-base text-gray-500 mt-2">{{ $user->email }}</p>
+        </div>
         </div>
 
         {{-- Success message --}}

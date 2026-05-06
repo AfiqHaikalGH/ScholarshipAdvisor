@@ -1,10 +1,10 @@
 <x-app-layout headerTitle="Start Application">
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <div class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Recommended Scholarships</h1>
-                <p class="mt-2 text-base text-gray-500 max-w-2xl">These scholarships match your profile. Click <strong>Update</strong> to prepare your offline application form and download the PDF for manual submission.</p>
-            </div>
+        <div class="mb-10 text-center flex flex-col items-center">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Recommended Scholarships</h1>
+            <p class="text-base text-gray-500 mt-2 max-w-2xl">
+                These scholarships match your profile. Click <strong>Update</strong> to prepare your offline application form and download the PDF for manual submission.
+            </p>
         </div>
 
         @if(session('errors'))
@@ -16,11 +16,11 @@
         <div class="bg-white shadow-xl border border-gray-200 rounded-3xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50/50">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-widest">Scholarship Name</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-widest">Provider</th>
-                            <th class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-widest">Action</th>
+                    <thead>
+                        <tr class="border-b border-[#7DAACB] bg-[#7DAACB]">
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Scholarship Name</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Provider</th>
+                            <th class="px-6 py-4 text-right text-xs font-semibold text-white uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-100">
