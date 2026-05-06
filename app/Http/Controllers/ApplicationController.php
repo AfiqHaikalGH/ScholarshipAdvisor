@@ -92,7 +92,7 @@ class ApplicationController extends Controller
         ]);
 
         if ($request->hasFile('proof')) {
-            $path = $request->file('proof')->store('proofs', 'public');
+            $path = $request->file('proof')->store('proofs', env('FILESYSTEM_DISK', 'public'));
 
             $application->update([
                 'proof_path' => $path,
@@ -120,7 +120,7 @@ class ApplicationController extends Controller
         }
 
         if ($application->proof_path) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($application->proof_path);
+            \Illuminate\Support\Facades\Storage::disk(env('FILESYSTEM_DISK', 'public'))->delete($application->proof_path);
             $application->update(['proof_path' => null]);
         }
 
