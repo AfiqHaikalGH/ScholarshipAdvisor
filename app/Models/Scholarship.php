@@ -9,6 +9,7 @@ class Scholarship extends Model
     protected $fillable = [
         'name',
         'provider',
+        'apply_url',
         'level',
         'description',
         'amount_per_year',

@@ -72,6 +72,9 @@
             .bg-admin {
                 background: radial-gradient(circle at center, #CBDCEB 0%, #608BC1 100%) fixed;
             }
+            .bg-representative {
+                background: radial-gradient(circle at center, #F4F8E6 0%, #E6EEC9 100%) fixed;
+            }
 
             /* Loose text readability adjustments */
             .bg-student h1:not(.bg-white h1), 
@@ -83,15 +86,18 @@
             }
             
             .bg-admin h1:not(.bg-white h1), 
-            .bg-admin h2:not(.bg-white h2) {
+            .bg-admin h2:not(.bg-white h2),
+            .bg-representative h1:not(.bg-white h1), 
+            .bg-representative h2:not(.bg-white h2) {
                 color: #000000 !important;
             }
-            .bg-admin p:not(.bg-white p) {
+            .bg-admin p:not(.bg-white p),
+            .bg-representative p:not(.bg-white p) {
                 color: #374151 !important;
             }
         </style>
     </head>
-    <body class="antialiased min-h-screen {{ Auth::user() && Auth::user()->role === 'admin' ? 'bg-admin' : 'bg-student' }}">
+    <body class="antialiased min-h-screen {{ !Auth::check() || Auth::user()->role === 'student' ? 'bg-student' : (Auth::user()->role === 'admin' ? 'bg-admin' : 'bg-representative') }}">
 
         <!-- Navigation Bar -->
         <nav x-data="{ mobileMenuOpen: false }" class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 xl:mx-10 rounded-2xl shadow-md transition-all">
@@ -113,7 +119,7 @@
                                 Scholarship Information
                             </a>
 
-                            @if(Auth::check() && Auth::user()->role !== 'admin')
+                            @if(Auth::check() && Auth::user()->role === 'student')
                                 <a href="{{ route('qualifications.index') }}"
                                    class="text-sm font-medium {{ request()->routeIs('qualifications.index') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
                                     Qualifications
@@ -122,17 +128,23 @@
                                    class="text-sm font-medium {{ request()->routeIs('qualifications.recommendations') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
                                     Recommendations
                                 </a>
+                                <a href="{{ route('applications.start') }}"
+                                   class="text-sm font-medium {{ request()->routeIs('applications.start') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                    Application
+                                </a>
                                 <a href="{{ route('applications.index') }}"
                                    class="text-sm font-medium {{ request()->routeIs('applications.index') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                    Application
+                                    Status
                                 </a>
                             @endif
 
-                            @if(Auth::check() && Auth::user()->role === 'admin')
-                                <a href="{{ route('admin.create') }}"
-                                   class="text-sm font-medium {{ request()->routeIs('admin.create') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                    Create Admin
-                                </a>
+                            @if(Auth::check() && in_array(Auth::user()->role, ['admin', 'representative']))
+                                @if(Auth::user()->role === 'admin')
+                                    <a href="{{ route('admins.index') }}"
+                                       class="text-sm font-medium {{ request()->routeIs('admins.*') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
+                                        Manage Admins
+                                    </a>
+                                @endif
                                 <a href="{{ route('scholarships.create') }}"
                                    class="text-sm font-medium {{ request()->routeIs('scholarships.create') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
                                     Create Scholarship
@@ -154,7 +166,7 @@
                             class="flex flex-col items-center justify-center px-4 py-1.5 bg-white border border-blue-200 rounded-xl hover:bg-blue-50 transition-all cursor-pointer shadow-sm group"
                         >
                             <span class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors truncate max-w-[150px]">{{ Auth::user()->name }}</span>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'admin' ? 'Admin' : 'Student' }}</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Main Admin' : 'Admin') }}</span>
                         </button>
 
                         <!-- Dropdown Menu -->
@@ -194,7 +206,7 @@
                         Scholarship Information
                     </a>
 
-                    @if(Auth::check() && Auth::user()->role !== 'admin')
+                    @if(Auth::check() && Auth::user()->role === 'student')
                         <a href="{{ route('qualifications.index') }}"
                            class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('qualifications.index') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Qualifications
@@ -203,17 +215,23 @@
                            class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('qualifications.recommendations') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Recommendations
                         </a>
+                        <a href="{{ route('applications.start') }}"
+                           class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('applications.start') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                            Application
+                        </a>
                         <a href="{{ route('applications.index') }}"
                            class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('applications.index') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
-                            Application
+                            Status
                         </a>
                     @endif
 
-                    @if(Auth::check() && Auth::user()->role === 'admin')
-                        <a href="{{ route('admin.create') }}"
-                           class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('admin.create') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
-                            Create Admin
-                        </a>
+                    @if(Auth::check() && in_array(Auth::user()->role, ['admin', 'representative']))
+                        @if(Auth::user()->role === 'admin')
+                            <a href="{{ route('admins.index') }}"
+                               class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('admins.*') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                                Manage Admins
+                            </a>
+                        @endif
                         <a href="{{ route('scholarships.create') }}"
                            class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('scholarships.create') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Create Scholarship
@@ -228,7 +246,7 @@
                     <div class="border-t border-gray-100 mt-4 pt-4 px-3 pb-2">
                         <div class="flex flex-col mb-4">
                             <span class="text-sm font-bold text-gray-900">{{ Auth::user()->name }}</span>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ Auth::user()->role === 'admin' ? 'Admin' : 'Student' }}</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Main Admin' : 'Admin') }}</span>
                         </div>
                         <a href="{{ route('profile.show') }}" class="block py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
                             My Profile

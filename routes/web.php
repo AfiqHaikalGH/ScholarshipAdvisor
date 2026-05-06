@@ -43,6 +43,15 @@ Route::middleware(['auth'])->group(function () {
     // Applications (student)
     Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
     Route::post('/applications/apply', [ApplicationController::class, 'apply'])->name('applications.apply');
+    Route::post('/applications/{application}/upload-proof', [ApplicationController::class, 'uploadProof'])->name('applications.upload-proof');
+    Route::delete('/applications/{application}/proof', [ApplicationController::class, 'deleteProof'])->name('applications.delete-proof');
+    Route::post('/applications/{application}/submit-proof', [ApplicationController::class, 'submitProof'])->name('applications.submit-proof');
+
+    // Offline Applications
+    Route::get('/applications/start', [ApplicationController::class, 'start'])->name('applications.start');
+    Route::get('/applications/offline-form', [ApplicationController::class, 'offlineForm'])->name('applications.offline-form');
+    Route::post('/applications/generate-pdf', [ApplicationController::class, 'generatePdf'])->name('applications.generate-pdf');
+    Route::post('/applications/save-profile', [ApplicationController::class, 'saveProfile'])->name('applications.save-profile');
 
     // Admin-only routes
     Route::prefix('admin')->group(function () {
@@ -53,9 +62,8 @@ Route::middleware(['auth'])->group(function () {
             return view('admin.dashboard');
         });
 
-        // Admin Account Creation
-        Route::get('/create-admin', [\App\Http\Controllers\Admin\AdminAccountController::class, 'create'])->name('admin.create');
-        Route::post('/create-admin', [\App\Http\Controllers\Admin\AdminAccountController::class, 'store'])->name('admin.store');
+        // Admin Account Creation & Management
+        Route::resource('admins', \App\Http\Controllers\Admin\AdminAccountController::class)->except(['show']);
 
         // Scholarship Management
         Route::get('/scholarships/create', [ScholarshipController::class, 'create'])->name('scholarships.create');

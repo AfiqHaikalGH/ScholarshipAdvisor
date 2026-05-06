@@ -10,7 +10,9 @@ class Application extends Model
         'user_id',
         'scholarship_name',
         'apply_url',
-        'acceptance_status',
+        'status',
+        'proof_path',
+        'is_proof_submitted',
         'applied_at',
     ];
 

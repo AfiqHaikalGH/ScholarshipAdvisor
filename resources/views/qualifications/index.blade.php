@@ -37,6 +37,7 @@
                     </div>
                 @endif
 
+                <fieldset {{ $hasApplied ? 'disabled' : '' }} class="space-y-8">
                 <!-- Personal Background Section -->
                 <div>
                     <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Personal Background</h2>
@@ -94,10 +95,9 @@
                     <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Current Study Status</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <x-input-label for="education_level" :value="__('Education Level')" />
+                            <x-input-label for="education_level" :value="__('Level Applying For')" />
                             <select id="education_level" name="education_level" x-model="educationLevel" class="mt-1 block w-full border-gray-300 focus:border-[#2C3BEB] focus:ring-[#2C3BEB] rounded-md shadow-sm">
                                 <option value="">Select Level</option>
-                                <option value="Foundation/Matriculation" {{ old('education_level', $qualification->education_level) == 'Foundation/Matriculation' ? 'selected' : '' }}>Foundation/Matriculation</option>
                                 <option value="Diploma" {{ old('education_level', $qualification->education_level) == 'Diploma' ? 'selected' : '' }}>Diploma</option>
                                 <option value="Bachelor" {{ old('education_level', $qualification->education_level) == 'Bachelor' ? 'selected' : '' }}>Bachelor</option>
                                 <option value="Master" {{ old('education_level', $qualification->education_level) == 'Master' ? 'selected' : '' }}>Master</option>
@@ -258,6 +258,7 @@
                         <x-primary-button class="!bg-[#2C3BEB] hover:!bg-[#2130d4] text-lg px-8 py-3">{{ __('Filter Qualifications') }}</x-primary-button>
                     @endif
                 </div>
+                </fieldset>
             </form>
         </div>
     </div>

@@ -11,12 +11,21 @@ class ScholarshipInfoController extends Controller
     {
         $query = Scholarship::query();
 
-        // 1. Keyword Search
+        // Scope scholarships for representatives
+        if (auth()->check() && auth()->user()->role === 'representative') {
+            $query->where('provider', auth()->user()->provider_name);
+        }
+
+        // 1. Keyword Search (Name, Description, Provider, or Requirements)
         if ($request->filled('search')) {
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%");
+                  ->orWhere('description', 'like', "%{$searchTerm}%")
+                  ->orWhere('provider', 'like', "%{$searchTerm}%")
+                  ->orWhereHas('scholarshipLevels', function($sq) use ($searchTerm) {
+                      $sq->where('additional_requirements', 'like', "%{$searchTerm}%");
+                  });
             });
         }
 
@@ -25,21 +34,55 @@ class ScholarshipInfoController extends Controller
             $query->where('provider', $request->provider);
         }
 
-        // 3. Education Level
+        // 3. Education Level (Check related scholarship_levels table - ignore empty placeholders)
         if ($request->filled('level')) {
-            $query->where(function($q) use ($request) {
-                foreach ((array) $request->level as $level) {
-                    $q->orWhere('level', 'like', "%{$level}%");
-                }
+            $levels = (array) $request->level;
+            $query->whereHas('scholarshipLevels', function($q) use ($levels) {
+                $q->where(function($sq) use ($levels) {
+                    foreach ($levels as $level) {
+                        // Using LIKE for JSON string compatibility in SQLite
+                        $sq->orWhere('education_levels', 'like', '%"' . $level . '"%');
+                    }
+                })->where(function($sq) {
+                    // Stricter check: Must have at least one academic requirement
+                    $sq->where(function($inner) {
+                        $inner->where('min_diploma_cgpa', '>', 0)
+                          ->orWhere('min_foundation_cgpa', '>', 0)
+                          ->orWhere('min_stpm_cgpa', '>', 0)
+                          ->orWhere('min_bachelor_cgpa', '>', 0)
+                          ->orWhere('min_master_cgpa', '>', 0)
+                          ->orWhereNotNull('muet_band')
+                          ->orWhereNotNull('age_limit');
+                    })->orWhere(function($inner) {
+                        $inner->whereNotNull('additional_requirements')
+                              ->where('additional_requirements', '!=', '[]')
+                              ->where('additional_requirements', '!=', '{}')
+                              ->where('additional_requirements', '!=', '');
+                    });
+                });
             });
         }
 
-        // 4. Place of Study
+        // 4. Study Location / Place of Study (Check related scholarship_levels - ignore empty placeholders)
         if ($request->filled('location') && $request->location !== 'All') {
-            $query->where('place_of_study', 'like', "%{$request->location}%");
+            $location = $request->location;
+            $query->whereHas('scholarshipLevels', function($q) use ($location) {
+                $q->where('additional_requirements', 'like', "%{$location}%")
+                  ->where(function($sq) {
+                      // Ensure it's an active block
+                      $sq->whereNotNull('min_diploma_cgpa')
+                        ->orWhereNotNull('min_foundation_cgpa')
+                        ->orWhereNotNull('min_stpm_cgpa')
+                        ->orWhereNotNull('min_bachelor_cgpa')
+                        ->orWhereNotNull('min_master_cgpa')
+                        ->orWhereNotNull('muet_band')
+                        ->orWhereNotNull('age_limit')
+                        ->orWhere('additional_requirements', 'like', '%"%'); // Has some JSON content
+                  });
+            });
         }
 
-        // Fetch paginated results ordered by latest
+        // Fetch results with pagination
         $scholarships = $query->latest()->paginate(12)->withQueryString();
 
         // Fetch distinct providers for the sidebar dropdown

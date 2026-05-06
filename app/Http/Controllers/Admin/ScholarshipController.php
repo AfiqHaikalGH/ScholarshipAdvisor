@@ -13,7 +13,7 @@ class ScholarshipController extends Controller
 {
     public function __construct()
     {
-        if (auth()->check() && auth()->user()->role !== 'admin') {
+        if (auth()->check() && !in_array(auth()->user()->role, ['admin', 'representative'])) {
             abort(403);
         }
     }
@@ -29,6 +29,7 @@ class ScholarshipController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'provider' => ['nullable', 'string', 'max:255'],
+            'apply_url' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string'],
             'amount_per_year' => ['nullable', 'numeric', 'min:0'],
             'application_start_date' => ['nullable', 'date'],
@@ -60,37 +61,9 @@ class ScholarshipController extends Controller
         ]);
 
         DB::transaction(function () use ($validated, $request) {
-            // Fixed 4-level labels in order
             $levelLabels = ['Diploma', 'Bachelor', 'Master', 'PhD'];
-            $levelLabel = implode(', ', $levelLabels);
-
-            $scholarship = Scholarship::create([
-                'name' => $validated['name'],
-                'provider' => $validated['provider'] ?? null,
-                'level' => $levelLabel,
-                'description' => $validated['description'] ?? null,
-                'amount_per_year' => $validated['amount_per_year'] ?? null,
-                'application_start_date' => $validated['application_start_date'] ?? null,
-                'application_end_date' => $validated['application_end_date'] ?? null,
-                'application_status' => $validated['application_status'] ?? 'Open',
-                'min_stpm_cgpa' => null,
-                'min_matriculation_cgpa' => null,
-                'min_diploma_cgpa' => null,
-                'min_spm_result' => null,
-                'cefr' => null,
-                'spm_subjects' => null,
-                'field_of_study' => null,
-                'place_of_study' => null,
-                'citizenship' => $validated['citizenship'] ?? null,
-                'age_limit' => $validated['education_levels'][0]['age_limit'] ?? null,
-                'income_category' => $validated['income_category'] ?? null,
-                'health_requirement' => $validated['health_requirement'] ?? null,
-                'has_other_scholarship_restriction'  => $request->boolean('has_other_scholarship_restriction'),
-                'blacklist_status'                    => $request->boolean('blacklist_status'),
-                'bond_required'                       => $request->boolean('bond_required'),
-                'bond_duration'                       => $validated['bond_duration'] ?? null,
-                'bond_organization'                   => $validated['bond_organization'] ?? null,
-            ]);
+            $activeLevels = [];
+            $levelBlocksToCreate = [];
 
             foreach ($validated['education_levels'] as $idx => $educationLevel) {
                 $spmSubjects = [];
@@ -118,17 +91,56 @@ class ScholarshipController extends Controller
                     'additional_requirements' => $educationLevel['additional_requirements'] ?? null,
                 ], fn($value) => !is_null($value) && $value !== '');
 
-                $scholarship->scholarshipLevels()->create([
-                    'education_levels' => [$levelLabels[$idx] ?? 'Diploma'],
-                    'min_diploma_cgpa' => $educationLevel['min_diploma_cgpa'] ?? null,
-                    'min_foundation_cgpa' => $educationLevel['min_foundation_cgpa'] ?? null,
-                    'min_stpm_cgpa' => $educationLevel['min_stpm_cgpa'] ?? null,
-                    'min_bachelor_cgpa' => $educationLevel['min_bachelor_cgpa'] ?? null,
-                    'min_master_cgpa' => $educationLevel['min_master_cgpa'] ?? null,
-                    'muet_band' => $educationLevel['muet_band'] ?? null,
-                    'age_limit' => $educationLevel['age_limit'] ?? null,
-                    'additional_requirements' => empty($levelRequirements) ? null : json_encode($levelRequirements),
-                ]);
+                // Only consider this level "active" if it has requirements or CGPA thresholds
+                $hasAcademicRequirement = (
+                    ($educationLevel['min_diploma_cgpa'] ?? 0) > 0 ||
+                    ($educationLevel['min_foundation_cgpa'] ?? 0) > 0 ||
+                    ($educationLevel['min_stpm_cgpa'] ?? 0) > 0 ||
+                    ($educationLevel['min_bachelor_cgpa'] ?? 0) > 0 ||
+                    ($educationLevel['min_master_cgpa'] ?? 0) > 0 ||
+                    !empty($educationLevel['muet_band']) ||
+                    !empty($educationLevel['age_limit']) ||
+                    !empty($levelRequirements)
+                );
+
+                if ($hasAcademicRequirement) {
+                    $activeLevels[] = $levelLabels[$idx] ?? 'Diploma';
+                    $levelBlocksToCreate[] = [
+                        'education_levels' => [$levelLabels[$idx] ?? 'Diploma'],
+                        'min_diploma_cgpa' => $educationLevel['min_diploma_cgpa'] ?? null,
+                        'min_foundation_cgpa' => $educationLevel['min_foundation_cgpa'] ?? null,
+                        'min_stpm_cgpa' => $educationLevel['min_stpm_cgpa'] ?? null,
+                        'min_bachelor_cgpa' => $educationLevel['min_bachelor_cgpa'] ?? null,
+                        'min_master_cgpa' => $educationLevel['min_master_cgpa'] ?? null,
+                        'muet_band' => $educationLevel['muet_band'] ?? null,
+                        'age_limit' => $educationLevel['age_limit'] ?? null,
+                        'additional_requirements' => empty($levelRequirements) ? null : json_encode($levelRequirements),
+                    ];
+                }
+            }
+
+            $scholarship = Scholarship::create([
+                'name' => $validated['name'],
+                'provider' => auth()->user()->role === 'representative' ? auth()->user()->provider_name : ($validated['provider'] ?? null),
+                'apply_url' => $validated['apply_url'] ?? null,
+                'level' => implode(', ', $activeLevels),
+                'description' => $validated['description'] ?? null,
+                'amount_per_year' => $validated['amount_per_year'] ?? null,
+                'application_start_date' => $validated['application_start_date'] ?? null,
+                'application_end_date' => $validated['application_end_date'] ?? null,
+                'application_status' => $validated['application_status'] ?? 'Open',
+                'citizenship' => $validated['citizenship'] ?? null,
+                'income_category' => $validated['income_category'] ?? null,
+                'health_requirement' => $validated['health_requirement'] ?? null,
+                'has_other_scholarship_restriction'  => $request->boolean('has_other_scholarship_restriction'),
+                'blacklist_status'                    => $request->boolean('blacklist_status'),
+                'bond_required'                       => $request->boolean('bond_required'),
+                'bond_duration'                       => $validated['bond_duration'] ?? null,
+                'bond_organization'                   => $validated['bond_organization'] ?? null,
+            ]);
+
+            foreach ($levelBlocksToCreate as $block) {
+                $scholarship->scholarshipLevels()->create($block);
             }
         });
 
@@ -138,6 +150,11 @@ class ScholarshipController extends Controller
     public function edit($id)
     {
         $scholarship = Scholarship::with('scholarshipLevels')->findOrFail($id);
+
+        if (auth()->user()->role === 'representative' && auth()->user()->provider_name !== $scholarship->provider) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $providers = Scholarship::whereNotNull('provider')->select('provider')->distinct()->pluck('provider');
 
         // Pre-decode scholarship levels for the edit form
@@ -157,9 +174,14 @@ class ScholarshipController extends Controller
     {
         $scholarship = Scholarship::findOrFail($id);
 
+        if (auth()->user()->role === 'representative' && auth()->user()->provider_name !== $scholarship->provider) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'provider' => ['nullable', 'string', 'max:255'],
+            'apply_url' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string'],
             'amount_per_year' => ['nullable', 'numeric', 'min:0'],
             'application_start_date' => ['nullable', 'date'],
@@ -191,39 +213,9 @@ class ScholarshipController extends Controller
         ]);
 
         DB::transaction(function () use ($scholarship, $validated, $request) {
-            // Fixed 4-level labels in order
             $levelLabels = ['Diploma', 'Bachelor', 'Master', 'PhD'];
-            $levelLabel = implode(', ', $levelLabels);
-
-            $scholarship->update([
-                'name' => $validated['name'],
-                'provider' => $validated['provider'] ?? null,
-                'level' => $levelLabel,
-                'description' => $validated['description'] ?? null,
-                'amount_per_year' => $validated['amount_per_year'] ?? null,
-                'application_start_date' => $validated['application_start_date'] ?? null,
-                'application_end_date' => $validated['application_end_date'] ?? null,
-                'application_status' => $validated['application_status'] ?? 'Open',
-                'min_stpm_cgpa' => null,
-                'min_matriculation_cgpa' => null,
-                'min_diploma_cgpa' => null,
-                'min_spm_result' => null,
-                'cefr' => null,
-                'spm_subjects' => null,
-                'field_of_study' => null,
-                'place_of_study' => null,
-                'citizenship' => $validated['citizenship'] ?? null,
-                'age_limit' => $validated['education_levels'][0]['age_limit'] ?? null,
-                'income_category' => $validated['income_category'] ?? null,
-                'health_requirement' => $validated['health_requirement'] ?? null,
-                'has_other_scholarship_restriction'  => $request->boolean('has_other_scholarship_restriction'),
-                'blacklist_status'                    => $request->boolean('blacklist_status'),
-                'bond_required'                       => $request->boolean('bond_required'),
-                'bond_duration'                       => $validated['bond_duration'] ?? null,
-                'bond_organization'                   => $validated['bond_organization'] ?? null,
-            ]);
-
-            $scholarship->scholarshipLevels()->delete();
+            $activeLevels = [];
+            $levelBlocksToCreate = [];
 
             foreach ($validated['education_levels'] as $idx => $educationLevel) {
                 $spmSubjects = [];
@@ -251,17 +243,57 @@ class ScholarshipController extends Controller
                     'additional_requirements' => $educationLevel['additional_requirements'] ?? null,
                 ], fn($value) => !is_null($value) && $value !== '');
 
-                $scholarship->scholarshipLevels()->create([
-                    'education_levels' => [$levelLabels[$idx] ?? 'Diploma'],
-                    'min_diploma_cgpa' => $educationLevel['min_diploma_cgpa'] ?? null,
-                    'min_foundation_cgpa' => $educationLevel['min_foundation_cgpa'] ?? null,
-                    'min_stpm_cgpa' => $educationLevel['min_stpm_cgpa'] ?? null,
-                    'min_bachelor_cgpa' => $educationLevel['min_bachelor_cgpa'] ?? null,
-                    'min_master_cgpa' => $educationLevel['min_master_cgpa'] ?? null,
-                    'muet_band' => $educationLevel['muet_band'] ?? null,
-                    'age_limit' => $educationLevel['age_limit'] ?? null,
-                    'additional_requirements' => empty($levelRequirements) ? null : json_encode($levelRequirements),
-                ]);
+                // Only consider this level "active" if it has requirements or CGPA thresholds
+                $hasAcademicRequirement = (
+                    ($educationLevel['min_diploma_cgpa'] ?? 0) > 0 ||
+                    ($educationLevel['min_foundation_cgpa'] ?? 0) > 0 ||
+                    ($educationLevel['min_stpm_cgpa'] ?? 0) > 0 ||
+                    ($educationLevel['min_bachelor_cgpa'] ?? 0) > 0 ||
+                    ($educationLevel['min_master_cgpa'] ?? 0) > 0 ||
+                    !empty($educationLevel['muet_band']) ||
+                    !empty($educationLevel['age_limit']) ||
+                    !empty($levelRequirements)
+                );
+
+                if ($hasAcademicRequirement) {
+                    $activeLevels[] = $levelLabels[$idx] ?? 'Diploma';
+                    $levelBlocksToCreate[] = [
+                        'education_levels' => [$levelLabels[$idx] ?? 'Diploma'],
+                        'min_diploma_cgpa' => $educationLevel['min_diploma_cgpa'] ?? null,
+                        'min_foundation_cgpa' => $educationLevel['min_foundation_cgpa'] ?? null,
+                        'min_stpm_cgpa' => $educationLevel['min_stpm_cgpa'] ?? null,
+                        'min_bachelor_cgpa' => $educationLevel['min_bachelor_cgpa'] ?? null,
+                        'min_master_cgpa' => $educationLevel['min_master_cgpa'] ?? null,
+                        'muet_band' => $educationLevel['muet_band'] ?? null,
+                        'age_limit' => $educationLevel['age_limit'] ?? null,
+                        'additional_requirements' => empty($levelRequirements) ? null : json_encode($levelRequirements),
+                    ];
+                }
+            }
+
+            $scholarship->update([
+                'name' => $validated['name'],
+                'provider' => auth()->user()->role === 'representative' ? auth()->user()->provider_name : ($validated['provider'] ?? null),
+                'apply_url' => $validated['apply_url'] ?? null,
+                'level' => implode(', ', $activeLevels),
+                'description' => $validated['description'] ?? null,
+                'amount_per_year' => $validated['amount_per_year'] ?? null,
+                'application_start_date' => $validated['application_start_date'] ?? null,
+                'application_end_date' => $validated['application_end_date'] ?? null,
+                'application_status' => $validated['application_status'] ?? 'Open',
+                'citizenship' => $validated['citizenship'] ?? null,
+                'income_category' => $validated['income_category'] ?? null,
+                'health_requirement' => $validated['health_requirement'] ?? null,
+                'has_other_scholarship_restriction'  => $request->boolean('has_other_scholarship_restriction'),
+                'blacklist_status'                    => $request->boolean('blacklist_status'),
+                'bond_required'                       => $request->boolean('bond_required'),
+                'bond_duration'                       => $validated['bond_duration'] ?? null,
+                'bond_organization'                   => $validated['bond_organization'] ?? null,
+            ]);
+
+            $scholarship->scholarshipLevels()->delete();
+            foreach ($levelBlocksToCreate as $block) {
+                $scholarship->scholarshipLevels()->create($block);
             }
         });
 
@@ -271,6 +303,11 @@ class ScholarshipController extends Controller
     public function destroy($id)
     {
         $scholarship = Scholarship::findOrFail($id);
+
+        if (auth()->user()->role === 'representative' && auth()->user()->provider_name !== $scholarship->provider) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $scholarship->delete();
 
         return back()->with('success', 'Scholarship deleted successfully.');

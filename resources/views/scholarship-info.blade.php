@@ -8,6 +8,7 @@
     <!-- Dashboard Layout: 2 Columns -->
     <div class="flex flex-col lg:flex-row gap-8">
         
+        @if(!auth()->check() || auth()->user()->role !== 'representative')
         <!-- Left Column: Filters Sidebar -->
         <div class="w-full lg:w-72 shrink-0">
             <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 sticky top-6">
@@ -84,6 +85,7 @@
                 </form>
             </div>
         </div>
+        @endif
 
         <!-- Right Column: Results Grid -->
         <div class="flex-grow">
@@ -118,13 +120,24 @@
                         <div class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col transition-all hover:shadow-lg hover:border-blue-200 h-full relative overflow-hidden group">
                             
                             <div class="flex-grow z-10">
-                                <!-- Status Badge -->
-                                <div class="mb-3 inline-flex">
+                                <!-- Status & Type Badges -->
+                                <div class="mb-3 inline-flex flex-wrap gap-2">
                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider {{ $scholarship->application_status === 'Open' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-gray-100 text-gray-600 border border-gray-200' }}">
                                         @if($scholarship->application_status === 'Open')
                                             <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                                         @endif
                                         {{ $scholarship->application_status ?? 'Status Unknown' }}
+                                    </span>
+
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider {{ !empty($scholarship->apply_url) ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-indigo-50 text-indigo-700 border border-indigo-200' }}">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            @if(!empty($scholarship->apply_url))
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            @else
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            @endif
+                                        </svg>
+                                        {{ !empty($scholarship->apply_url) ? 'Online' : 'Offline' }}
                                     </span>
                                 </div>
 
@@ -146,7 +159,7 @@
                                     View Detailed Requirements
                                 </a>
                                 
-                                @if(auth()->user() && auth()->user()->role === 'admin')
+                                @if(auth()->user() && (auth()->user()->role === 'admin' || (auth()->user()->role === 'representative' && auth()->user()->provider_name === $scholarship->provider)))
                                 <div class="grid grid-cols-2 gap-2 mt-1">
                                     <a href="{{ route('scholarships.edit', $scholarship->id) }}" class="block py-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 text-center font-bold text-[13px] rounded-lg transition-colors border border-yellow-200">
                                         Update

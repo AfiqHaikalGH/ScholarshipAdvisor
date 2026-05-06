@@ -87,14 +87,26 @@
                     <div>
                         <label
                             class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Provider</label>
-                        <input type="text" name="provider" value="{{ old('provider', $scholarship->provider) }}"
-                            list="providerList"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-[#2C3BEB] focus:border-[#2C3BEB]">
+                        @if(auth()->user()->role === 'representative')
+                            <input type="text" name="provider" value="{{ old('provider', $scholarship->provider) }}" readonly
+                                class="w-full border border-gray-300 bg-gray-100 rounded-lg px-3 py-2 text-sm cursor-not-allowed text-gray-500">
+                        @else
+                            <input type="text" name="provider" value="{{ old('provider', $scholarship->provider) }}"
+                                list="providerList"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-[#2C3BEB] focus:border-[#2C3BEB]">
+                        @endif
                         <datalist id="providerList">
                             @foreach($providers as $prov)
                                 <option value="{{ $prov }}"></option>
                             @endforeach
                         </datalist>
+                    </div>
+                    <div class="col-span-full md:col-span-1">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Application
+                            Link (Leave blank if offline)</label>
+                        <input type="url" name="apply_url" placeholder="https://..."
+                            value="{{ old('apply_url', $scholarship->apply_url) }}"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-[#2C3BEB] focus:border-[#2C3BEB]">
                     </div>
                     <div class="col-span-full md:col-span-1">
                         <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Amount

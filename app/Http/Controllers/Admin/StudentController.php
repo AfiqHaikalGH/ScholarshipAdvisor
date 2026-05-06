@@ -12,17 +12,26 @@ class StudentController extends Controller
 {
     public function __construct()
     {
-        if (auth()->check() && auth()->user()->role !== 'admin') {
+        if (auth()->check() && !in_array(auth()->user()->role, ['admin', 'representative'])) {
             abort(403);
         }
     }
 
     /**
-     * List all non-admin users.
+     * List students or applications depending on the admin role.
      */
     public function index()
     {
-        $students = User::where('role', '!=', 'admin')
+        if (auth()->user()->role === 'representative') {
+            $providerName = auth()->user()->provider_name;
+            $scholarshipNames = \App\Models\Scholarship::where('provider', $providerName)->pluck('name');
+            $query = Application::with('user')->whereIn('scholarship_name', $scholarshipNames);
+            $applications = $query->orderByDesc('applied_at')->paginate(20);
+            return view('admin.students.representative_index', compact('applications'));
+        }
+
+        // Main Admin view: List of all students
+        $students = User::whereNotIn('role', ['admin', 'representative'])
             ->orderBy('name')
             ->get();
 
@@ -30,22 +39,19 @@ class StudentController extends Controller
     }
 
     /**
-     * Show all application records for a specific student.
+     * Show all application records for a specific student (Main Admin only).
      */
     public function applications(User $user)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+
         $applications = Application::where('user_id', $user->id)
             ->orderByDesc('applied_at')
             ->get();
 
-        $appliedNames = $applications->pluck('scholarship_name');
-
-        // Show recommended-but-not-applied scholarships separately
-        $notApplied = Recommendation::where('user_id', $user->id)
-            ->whereNotIn('scholarship_name', $appliedNames)
-            ->pluck('scholarship_name');
-
-        return view('admin.students.applications', compact('user', 'applications', 'notApplied'));
+        return view('admin.students.applications', compact('user', 'applications'));
     }
 
     /**
@@ -54,8 +60,16 @@ class StudentController extends Controller
     public function updateStatus(Request $request, Application $application)
     {
         $validated = $request->validate([
-            'acceptance_status' => 'required|in:Pending,Accepted,Rejected',
+            'status' => 'required|in:Not Apply,Applied,Approved,Rejected',
         ]);
+
+        if (auth()->user()->role === 'representative') {
+            $providerName = auth()->user()->provider_name;
+            $scholarship = \App\Models\Scholarship::where('name', $application->scholarship_name)->first();
+            if (!$scholarship || $scholarship->provider !== $providerName) {
+                abort(403, 'Unauthorized action.');
+            }
+        }
 
         $application->update($validated);
 

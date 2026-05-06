@@ -97,6 +97,11 @@
                                                 class="block w-full text-center bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg cursor-default">
                                                 Applied
                                             </button>
+                                        @elseif(empty($scholarship['apply_url']))
+                                            <a href="{{ route('applications.offline-form', ['scholarship' => $scholarship['name']]) }}"
+                                                class="block w-full text-center bg-[#2C3BEB] hover:bg-[#2130d4] text-white font-medium py-2.5 px-4 rounded-lg transition duration-150">
+                                                Apply Now
+                                            </a>
                                         @else
                                             <button type="submit"
                                                 class="block w-full text-center bg-[#2C3BEB] hover:bg-[#2130d4] text-white font-medium py-2.5 px-4 rounded-lg transition duration-150">
@@ -159,9 +164,8 @@
                 })
                 .then(data => {
                     if (data.success) {
-                        submitBtn.innerText = 'Applied';
-                        submitBtn.classList.remove('bg-[#2C3BEB]', 'hover:bg-[#2130d4]');
-                        submitBtn.classList.add('bg-green-600', 'cursor-default');
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = originalText;
                         window.open(applyUrl, '_blank');
                     }
                 })

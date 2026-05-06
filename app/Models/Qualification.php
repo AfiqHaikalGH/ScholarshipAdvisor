@@ -34,6 +34,7 @@ class Qualification extends Model
     protected $casts = [
         'spm_results' => 'array',
         'stpm_results' => 'array',
+        'research_proposal' => 'boolean',
     ];
 
     public function user()

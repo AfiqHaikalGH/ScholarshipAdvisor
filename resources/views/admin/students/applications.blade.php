@@ -24,86 +24,85 @@
         @endif
 
         {{-- Unified Scholarship Table --}}
-        @if($applications->isEmpty() && $notApplied->isEmpty())
+        @if($applications->isEmpty())
             <div class="bg-white p-10 rounded-2xl border border-gray-200 text-center">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">No Recommendations or Applications</h3>
-                <p class="text-gray-500">This student has not yet run the recommendation engine.</p>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">No Applications Found</h3>
+                <p class="text-gray-500">This student has not submitted any scholarship applications yet.</p>
             </div>
         @else
-            @php
-                $allScholarships = $applications->map(function($app) {
-                    return (object)[
-                        'name' => $app->scholarship_name,
-                        'application_status' => 'Applied',
-                        'acceptance_status' => $app->acceptance_status,
-                        'application' => $app,
-                    ];
-                })->concat($notApplied->map(function($name) {
-                    return (object)[
-                        'name' => $name,
-                        'application_status' => 'Not Applied',
-                        'acceptance_status' => 'Not Applied',
-                        'application' => null,
-                    ];
-                }))->sortBy('name');
-            @endphp
-
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-8">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-[#7DAACB] bg-[#7DAACB]">
                             <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Scholarship</th>
                             <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Application Status</th>
-                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Acceptance Status</th>
+                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Proof of Application</th>
                             <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Update Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @foreach($allScholarships as $item)
+                        @foreach($applications as $app)
                             @php
                                 $statusColors = [
-                                    'Pending'  => 'bg-yellow-100 text-yellow-800',
-                                    'Accepted' => 'bg-green-100 text-green-800',
-                                    'Rejected' => 'bg-red-100 text-red-800',
-                                    'Not Applied' => 'bg-gray-100 text-gray-500',
+                                    'Not Apply' => 'bg-gray-100 text-gray-500',
+                                    'Applied'   => 'bg-blue-100 text-blue-700',
+                                    'Approved'  => 'bg-green-100 text-green-800',
+                                    'Rejected'  => 'bg-red-100 text-red-800',
                                 ];
-                                $colorClass = $statusColors[$item->acceptance_status] ?? 'bg-gray-100 text-gray-700';
+                                $colorClass = $statusColors[$app->status] ?? 'bg-gray-100 text-gray-700';
                             @endphp
                             <tr class="hover:bg-gray-50 transition duration-100">
-                                <td class="px-6 py-4 font-medium {{ $item->application_status === 'Not Applied' ? 'text-gray-400 italic' : 'text-gray-900' }}">
-                                    {{ $item->name }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $item->application_status === 'Applied' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500' }}">
-                                        {{ $item->application_status }}
-                                    </span>
+                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    {{ $app->scholarship_name }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $colorClass }}">
-                                        {{ $item->acceptance_status }}
+                                        {{ $app->status }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    @if($item->application)
-                                        <form method="POST"
-                                            action="{{ route('admin.applications.updateStatus', $item->application) }}"
-                                            class="flex items-center gap-2">
-                                            @csrf
-                                            @method('PATCH')
-                                            <select name="acceptance_status"
-                                                class="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent">
-                                                <option value="Pending"  @selected($item->application->acceptance_status === 'Pending')>Pending</option>
-                                                <option value="Accepted" @selected($item->application->acceptance_status === 'Accepted')>Accepted</option>
-                                                <option value="Rejected" @selected($item->application->acceptance_status === 'Rejected')>Rejected</option>
-                                            </select>
-                                            <button type="submit"
-                                                class="px-3 py-1.5 bg-[#2C3BEB] hover:bg-[#2130d4] text-white text-xs font-semibold rounded-lg transition duration-150">
-                                                Update
-                                            </button>
-                                        </form>
+                                    @if($app->is_proof_submitted)
+                                        @if($app->proof_path)
+                                            <a href="{{ Storage::url($app->proof_path) }}" target="_blank" class="text-[#2C3BEB] hover:underline text-xs font-semibold flex items-center gap-1">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                                                View Proof
+                                            </a>
+                                        @else
+                                            <span class="text-gray-400 text-xs italic">N/A</span>
+                                        @endif
+                                    @elseif(!$app->is_proof_submitted && $app->proof_path)
+                                        <div class="flex items-center gap-1.5 text-yellow-600">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <span class="text-[11px] font-bold uppercase tracking-wider">Not Submitted</span>
+                                        </div>
                                     @else
-                                        <span class="text-gray-400 text-xs">—</span>
+                                        <span class="text-gray-400 text-xs italic">N/A</span>
                                     @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                    <form method="POST"
+                                        action="{{ route('admin.applications.updateStatus', $app) }}"
+                                        class="flex items-center gap-2">
+                                        @csrf
+                                        @method('PATCH')
+                                        @php
+                                            // Allow Super Admin to always update, otherwise require proof submission
+                                            $isSubmittable = $app->is_proof_submitted || auth()->user()->role === 'admin';
+                                        @endphp
+                                        <select name="status"
+                                            class="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent {{ !$isSubmittable ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : '' }}"
+                                            {{ !$isSubmittable ? 'disabled' : '' }}>
+                                            <option value="Not Apply" @selected($app->status === 'Not Apply')>Not Apply</option>
+                                            <option value="Applied"   @selected($app->status === 'Applied')>Applied</option>
+                                            <option value="Approved"  @selected($app->status === 'Approved')>Approved</option>
+                                            <option value="Rejected"  @selected($app->status === 'Rejected')>Rejected</option>
+                                        </select>
+                                        <button type="submit"
+                                            class="px-3 py-1.5 text-white text-xs font-semibold rounded-lg transition duration-150 {{ !$isSubmittable ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#2C3BEB] hover:bg-[#2130d4]' }}"
+                                            {{ !$isSubmittable ? 'disabled' : '' }}>
+                                            Update
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
