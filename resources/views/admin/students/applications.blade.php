@@ -36,10 +36,10 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-[#7DAACB] bg-[#7DAACB]">
-                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Scholarship</th>
-                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Application Status</th>
-                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Proof of Application</th>
-                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-6 py-4">Update Status</th>
+                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-4 py-2.5">Scholarship</th>
+                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-4 py-2.5">Application Status</th>
+                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-4 py-2.5">Proof of Application</th>
+                            <th class="text-left text-xs font-semibold text-white uppercase tracking-wider px-4 py-2.5">Update Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -54,15 +54,15 @@
                                 $colorClass = $statusColors[$app->status] ?? 'bg-gray-100 text-gray-700';
                             @endphp
                             <tr class="hover:bg-gray-50 transition duration-100">
-                                <td class="px-6 py-4 font-medium text-gray-900">
+                                <td class="px-4 py-3 font-medium text-gray-900">
                                     {{ $app->scholarship_name }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-4 py-3">
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $colorClass }}">
                                         {{ $app->status }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-4 py-3">
                                     @if($app->is_proof_submitted)
                                         @if($app->proof_path)
                                             <a href="{{ Storage::url($app->proof_path) }}" target="_blank" class="text-[#2C3BEB] hover:underline text-xs font-semibold flex items-center gap-1">
@@ -81,7 +81,7 @@
                                         <span class="text-gray-400 text-xs italic">N/A</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-4 py-3">
                                     <form method="POST"
                                         action="{{ route('admin.applications.updateStatus', $app) }}"
                                         class="flex items-center gap-2">

@@ -1,7 +1,7 @@
 <x-app-layout headerTitle="Start Application">
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <div class="mb-10 text-center flex flex-col items-center">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight"> Offline Scholarships
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Offline Scholarships
                 Application</h1>
             <p class="text-base text-gray-500 mt-2 max-w-2xl">
                 These scholarships match your profile. Click <strong>Update</strong> to prepare your offline application
