@@ -304,7 +304,7 @@ class QualificationController extends Controller
         $this->addCriteria($m, $ms, $age > 0 && $age <= 20, 'Age Eligibility (<= 20)');
         $this->addCriteria($m, $ms, $study_location === 'local', 'Local Institution');
         $this->addCriteria($m, $ms, $education_level === 'diploma', 'Applying for Diploma');
-        $results[] = ['name' => 'Biasiswa Perdana - Biasiswa Kerajaan Negeri Sabah', 'score' => (count($m) / $total) * 100, 'matches' => $m, 'missing' => $ms];
+        $results[] = ['name' => 'BIASISWA PERDANA - BIASISWA KERAJAAN NEGERI SABAH', 'score' => (count($m) / $total) * 100, 'matches' => $m, 'missing' => $ms];
 
         // ── Rule 2: Biasiswa Perdana – Bachelor ──
         $m = [];
@@ -317,7 +317,7 @@ class QualificationController extends Controller
         $this->addCriteria($m, $ms, $age > 0 && $age <= 25, 'Age Eligibility (<= 25)');
         $this->addCriteria($m, $ms, $study_location === 'local', 'Local Institution');
         $this->addCriteria($m, $ms, $education_level === 'bachelor', 'Applying for Bachelor');
-        $results[] = ['name' => 'Biasiswa Perdana - Biasiswa Kerajaan Negeri Sabah', 'score' => (count($m) / $total) * 100, 'matches' => $m, 'missing' => $ms];
+        $results[] = ['name' => 'BIASISWA PERDANA - BIASISWA KERAJAAN NEGERI SABAH', 'score' => (count($m) / $total) * 100, 'matches' => $m, 'missing' => $ms];
 
         // ── Rule 3: Biasiswa Perdana – Master ──
         $m = [];
@@ -330,7 +330,7 @@ class QualificationController extends Controller
         $this->addCriteria($m, $ms, $age > 0 && $age <= 30, 'Age Eligibility (<= 30)');
         $this->addCriteria($m, $ms, $study_location === 'local', 'Local Institution');
         $this->addCriteria($m, $ms, $education_level === 'master', 'Applying for Master');
-        $results[] = ['name' => 'Biasiswa Perdana - Biasiswa Kerajaan Negeri Sabah', 'score' => (count($m) / $total) * 100, 'matches' => $m, 'missing' => $ms];
+        $results[] = ['name' => 'BIASISWA PERDANA - BIASISWA KERAJAAN NEGERI SABAH', 'score' => (count($m) / $total) * 100, 'matches' => $m, 'missing' => $ms];
 
         // ── Rule 4: Biasiswa Cemerlang Negeri Sabah (BCNS) ──
         $m = [];
