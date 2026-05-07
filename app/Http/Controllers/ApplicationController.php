@@ -7,6 +7,7 @@ use App\Models\Recommendation;
 use App\Models\Scholarship;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -27,6 +28,8 @@ class ApplicationController extends Controller
         $applications = Application::where('user_id', $userId)
             ->get()
             ->keyBy('scholarship_name');
+        $disk = Storage::disk(config('filesystems.default'));
+        $driver = config('filesystems.disks.' . config('filesystems.default') . '.driver');
 
         // Build a unified list combining recommendation + application data
         $scholarships = $recommendations->map(function ($rec) use ($applications) {
@@ -40,6 +43,11 @@ class ApplicationController extends Controller
                 'applied' => $application !== null,
                 'status' => $application?->status,
                 'proof_path' => $application?->proof_path,
+                'proof_url' => $application?->proof_path
+                    ? ($driver === 's3'
+                        ? $disk->temporaryUrl($application->proof_path, now()->addMinutes(15))
+                        : $disk->url($application->proof_path))
+                    : null,
                 'is_proof_submitted' => $application?->is_proof_submitted ?? false,
                 'is_offline' => empty($scholarship?->apply_url),
             ];
@@ -94,9 +102,13 @@ class ApplicationController extends Controller
 
         if ($request->hasFile('proof')) {
             try {
-                // Store file using the configured filesystem disk (s3 or public)
-                $disk = \Illuminate\Support\Facades\Storage::disk(env('FILESYSTEM_DISK', 'public'));
+                // Store file using the configured filesystem disk (s3/public/local).
+                $diskName = config('filesystems.default');
+                $disk = \Illuminate\Support\Facades\Storage::disk($diskName);
                 $path = $disk->putFile('proofs', $request->file('proof'));
+                if (!$path) {
+                    throw new \RuntimeException("Upload returned an empty path on disk [{$diskName}].");
+                }
 
                 $application->update([
                     'proof_path' => $path,
@@ -128,7 +140,7 @@ class ApplicationController extends Controller
         }
 
         if ($application->proof_path) {
-            \Illuminate\Support\Facades\Storage::disk(env('FILESYSTEM_DISK', 'public'))->delete($application->proof_path);
+            \Illuminate\Support\Facades\Storage::disk(config('filesystems.default'))->delete($application->proof_path);
             $application->update(['proof_path' => null]);
         }
 

@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\Recommendation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -27,6 +28,7 @@ class StudentController extends Controller
             $scholarshipNames = \App\Models\Scholarship::where('provider', $providerName)->pluck('name');
             $query = Application::with('user')->whereIn('scholarship_name', $scholarshipNames);
             $applications = $query->orderByDesc('applied_at')->paginate(20);
+            $this->attachProofUrls($applications);
             return view('admin.students.representative_index', compact('applications'));
         }
 
@@ -50,8 +52,28 @@ class StudentController extends Controller
         $applications = Application::where('user_id', $user->id)
             ->orderByDesc('applied_at')
             ->get();
+        $this->attachProofUrls($applications);
 
         return view('admin.students.applications', compact('user', 'applications'));
+    }
+
+    private function attachProofUrls($applications): void
+    {
+        $diskName = config('filesystems.default');
+        $driver = config('filesystems.disks.' . $diskName . '.driver');
+        $disk = Storage::disk($diskName);
+
+        foreach ($applications as $application) {
+            $application->proof_url = null;
+
+            if (!$application->proof_path) {
+                continue;
+            }
+
+            $application->proof_url = $driver === 's3'
+                ? $disk->temporaryUrl($application->proof_path, now()->addMinutes(15))
+                : $disk->url($application->proof_path);
+        }
     }
 
     /**

@@ -112,7 +112,7 @@
                                             @enderror
                                         @elseif($scholarship['proof_path'] && !$scholarship['is_proof_submitted'])
                                             <div class="flex items-center gap-3">
-                                                <a href="{{ Storage::url($scholarship['proof_path']) }}" target="_blank"
+                                                <a href="{{ $scholarship['proof_url'] }}" target="_blank"
                                                     class="text-gray-600 hover:text-gray-900 text-xs font-semibold hover:underline"
                                                     title="View Attachment">
                                                     View Attachment
@@ -142,7 +142,7 @@
                                             </div>
                                         @elseif($scholarship['proof_path'] && $scholarship['is_proof_submitted'])
                                             <div class="flex items-center gap-2">
-                                                <a href="{{ Storage::url($scholarship['proof_path']) }}" target="_blank"
+                                                <a href="{{ $scholarship['proof_url'] }}" target="_blank"
                                                     class="text-[#2C3BEB] hover:underline text-xs font-semibold" title="View Proof">
                                                     View Attachment
                                                 </a>
