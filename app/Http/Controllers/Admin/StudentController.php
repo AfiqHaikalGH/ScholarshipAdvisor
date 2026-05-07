@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\Recommendation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
@@ -70,9 +71,18 @@ class StudentController extends Controller
                 continue;
             }
 
-            $application->proof_url = $driver === 's3'
-                ? $disk->temporaryUrl($application->proof_path, now()->addMinutes(15))
-                : $disk->url($application->proof_path);
+            try {
+                $application->proof_url = $driver === 's3'
+                    ? $disk->temporaryUrl($application->proof_path, now()->addMinutes(15))
+                    : $disk->url($application->proof_path);
+            } catch (\Throwable $e) {
+                Log::warning('Failed to generate proof URL for admin applications page.', [
+                    'application_id' => $application->id,
+                    'disk' => $diskName,
+                    'proof_path' => $application->proof_path,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
     }
 

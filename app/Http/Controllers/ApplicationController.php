@@ -7,6 +7,7 @@ use App\Models\Recommendation;
 use App\Models\Scholarship;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
@@ -32,9 +33,25 @@ class ApplicationController extends Controller
         $driver = config('filesystems.disks.' . config('filesystems.default') . '.driver');
 
         // Build a unified list combining recommendation + application data
-        $scholarships = $recommendations->map(function ($rec) use ($applications) {
+        $scholarships = $recommendations->map(function ($rec) use ($applications, $disk, $driver) {
             $scholarship = Scholarship::where('name', $rec->scholarship_name)->first();
             $application = $applications->get($rec->scholarship_name);
+            $proofUrl = null;
+
+            if ($application?->proof_path) {
+                try {
+                    $proofUrl = $driver === 's3'
+                        ? $disk->temporaryUrl($application->proof_path, now()->addMinutes(15))
+                        : $disk->url($application->proof_path);
+                } catch (\Throwable $e) {
+                    Log::warning('Failed to generate proof URL for application status page.', [
+                        'application_id' => $application->id,
+                        'disk' => config('filesystems.default'),
+                        'proof_path' => $application->proof_path,
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+            }
 
             return [
                 'id' => $application?->id,
@@ -43,11 +60,7 @@ class ApplicationController extends Controller
                 'applied' => $application !== null,
                 'status' => $application?->status,
                 'proof_path' => $application?->proof_path,
-                'proof_url' => $application?->proof_path
-                    ? ($driver === 's3'
-                        ? $disk->temporaryUrl($application->proof_path, now()->addMinutes(15))
-                        : $disk->url($application->proof_path))
-                    : null,
+                'proof_url' => $proofUrl,
                 'is_proof_submitted' => $application?->is_proof_submitted ?? false,
                 'is_offline' => empty($scholarship?->apply_url),
             ];
