@@ -41,6 +41,7 @@ class ApplicationController extends Controller
                 'status' => $application?->status,
                 'proof_path' => $application?->proof_path,
                 'is_proof_submitted' => $application?->is_proof_submitted ?? false,
+                'is_offline' => empty($scholarship?->apply_url),
             ];
         });
 
@@ -218,6 +219,18 @@ class ApplicationController extends Controller
 
         $qualification = $user->qualification;
         $scholarshipName = $validated['scholarship_name'];
+
+        // Automatically create the application record so it appears in the status page
+        \App\Models\Application::firstOrCreate(
+            [
+                'user_id' => $user->id,
+                'scholarship_name' => $scholarshipName,
+            ],
+            [
+                'status' => 'Not Apply',
+                'applied_at' => now(),
+            ]
+        );
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('applications.pdf', compact('user', 'qualification', 'scholarshipName'));
         

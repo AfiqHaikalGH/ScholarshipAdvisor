@@ -74,7 +74,9 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        @if($scholarship['applied'] && !$scholarship['proof_path'] && $scholarship['id'])
+                                        @if($scholarship['is_offline'])
+                                            <span class="text-gray-500 text-xs font-semibold italic">Not required</span>
+                                        @elseif($scholarship['applied'] && !$scholarship['proof_path'] && $scholarship['id'])
                                             <form action="{{ route('applications.upload-proof', $scholarship['id']) }}"
                                                 method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
                                                 @csrf

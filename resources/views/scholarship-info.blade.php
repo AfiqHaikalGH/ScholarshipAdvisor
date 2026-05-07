@@ -17,7 +17,7 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                         Filters
                     </h2>
-                    @if(request()->anyFilled(['search', 'provider', 'level', 'location']))
+                    @if(request()->anyFilled(['search', 'provider', 'level']))
                         <a href="{{ route('scholarship.info') }}" class="text-xs text-red-500 hover:text-red-700 font-semibold transition-colors">Clear All</a>
                     @endif
                 </div>
@@ -69,15 +69,7 @@
                         </div>
                     </div>
 
-                    <!-- Place of Study -->
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Study Location</label>
-                        <select name="location" class="w-full border border-gray-200 rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent bg-white">
-                            <option value="All">Anywhere</option>
-                            <option value="Local" {{ request('location') == 'Local' ? 'selected' : '' }}>Local (Malaysia)</option>
-                            <option value="Overseas" {{ request('location') == 'Overseas' ? 'selected' : '' }}>Overseas</option>
-                        </select>
-                    </div>
+
 
                     <button type="submit" class="w-full py-2.5 bg-[#2C3BEB] text-white font-bold text-sm rounded-lg hover:bg-[#2130d4] transition-colors shadow-sm">
                         Apply Filters
@@ -90,12 +82,12 @@
         <!-- Right Column: Results Grid -->
         <div class="flex-grow">
             <!-- Active Filters Badge Area -->
-            @if(request()->anyFilled(['search', 'provider', 'level', 'location']))
+            @if(request()->anyFilled(['search', 'provider', 'level']))
                 <div class="mb-4 text-sm text-gray-600 flex items-center gap-2">
                     <span class="font-semibold text-gray-900">Showing results for:</span>
                     @if(request('search')) <span class="bg-blue-50 text-[#2C3BEB] px-2 py-1 rounded border border-blue-100 text-xs font-medium">"{{ request('search') }}"</span> @endif
                     @if(request('provider') && request('provider') !== 'All') <span class="bg-blue-50 text-[#2C3BEB] px-2 py-1 rounded border border-blue-100 text-xs font-medium">Provider: {{ request('provider') }}</span> @endif
-                    @if(request('location') && request('location') !== 'All') <span class="bg-blue-50 text-[#2C3BEB] px-2 py-1 rounded border border-blue-100 text-xs font-medium">Location: {{ request('location') }}</span> @endif
+
                 </div>
             @endif
 
@@ -109,7 +101,7 @@
                     </div>
                     <h2 class="text-lg font-bold text-gray-900 mb-2">No Match Found</h2>
                     <p class="text-sm text-gray-500 max-w-sm">We couldn't find any scholarships matching your current filters. Try adjusting your search criteria or clearing filters.</p>
-                    @if(request()->anyFilled(['search', 'provider', 'level', 'location']))
+                    @if(request()->anyFilled(['search', 'provider', 'level']))
                         <a href="{{ route('scholarship.info') }}" class="mt-6 px-4 py-2 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 text-sm transition-colors">Clear All Filters</a>
                     @endif
                 </div>

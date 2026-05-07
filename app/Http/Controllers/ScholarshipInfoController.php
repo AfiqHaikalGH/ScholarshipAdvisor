@@ -63,24 +63,7 @@ class ScholarshipInfoController extends Controller
             });
         }
 
-        // 4. Study Location / Place of Study (Check related scholarship_levels - ignore empty placeholders)
-        if ($request->filled('location') && $request->location !== 'All') {
-            $location = $request->location;
-            $query->whereHas('scholarshipLevels', function($q) use ($location) {
-                $q->where('additional_requirements', 'like', "%{$location}%")
-                  ->where(function($sq) {
-                      // Ensure it's an active block
-                      $sq->whereNotNull('min_diploma_cgpa')
-                        ->orWhereNotNull('min_foundation_cgpa')
-                        ->orWhereNotNull('min_stpm_cgpa')
-                        ->orWhereNotNull('min_bachelor_cgpa')
-                        ->orWhereNotNull('min_master_cgpa')
-                        ->orWhereNotNull('muet_band')
-                        ->orWhereNotNull('age_limit')
-                        ->orWhere('additional_requirements', 'like', '%"%'); // Has some JSON content
-                  });
-            });
-        }
+
 
         // Fetch results with pagination
         $scholarships = $query->latest()->paginate(12)->withQueryString();
