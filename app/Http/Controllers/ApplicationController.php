@@ -227,6 +227,7 @@ class ApplicationController extends Controller
                 'scholarship_name' => $scholarshipName,
             ],
             [
+                'apply_url' => '', // Empty string for offline applications to satisfy DB constraint
                 'status' => 'Not Apply',
                 'applied_at' => now(),
             ]
