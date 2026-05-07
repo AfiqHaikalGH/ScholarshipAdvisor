@@ -93,13 +93,19 @@ class ApplicationController extends Controller
         ]);
 
         if ($request->hasFile('proof')) {
-            $path = $request->file('proof')->store('proofs', env('FILESYSTEM_DISK', 'public'));
+            try {
+                $path = $request->file('proof')->store('proofs', env('FILESYSTEM_DISK', 'public'));
 
-            $application->update([
-                'proof_path' => $path,
-            ]);
+                $application->update([
+                    'proof_path' => $path,
+                ]);
 
-            return back()->with('success', 'Attachment saved successfully! You can now view, delete, or submit it.');
+                return back()->with('success', 'Attachment saved successfully! You can now view, delete, or submit it.');
+            } catch (\Exception $e) {
+                // Catch any S3 or file storage exceptions
+                \Illuminate\Support\Facades\Log::error('Failed to upload proof: ' . $e->getMessage());
+                return back()->withErrors(['proof' => 'Failed to upload file to the storage server. Please try again later.']);
+            }
         }
 
         return back()->withErrors(['proof' => 'Failed to upload proof.']);
