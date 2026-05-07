@@ -194,11 +194,12 @@ class ApplicationController extends Controller
                 return [
                     'name' => $r->scholarship_name,
                     'provider' => $scholarship ? $scholarship->provider : 'N/A',
+                    'score' => (float) $r->score,
                     'is_offline' => $scholarship ? empty($scholarship->apply_url) : true,
                 ];
             })
             ->filter(function ($rec) {
-                return $rec['is_offline']; // Only show if it's offline
+                return $rec['is_offline'] && $rec['score'] >= 100; // Only show if offline and eligible
             });
 
         return view('applications.start', compact('recommendations'));
