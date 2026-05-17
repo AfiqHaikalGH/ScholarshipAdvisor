@@ -294,7 +294,7 @@ class QualificationController extends Controller
         // ── Rule 1: Biasiswa Perdana – Diploma ──
         $m = [];
         $ms = [];
-        $total = 10;
+        $total = 9;
         $this->addCriteria($m, $ms, $citizenship === 'malaysian', 'Malaysian Citizenship');
         $this->addCriteria($m, $ms, $birthstate === 'sabah', 'Born in Sabah');
         $this->addCriteria($m, $ms, $father_birthstate === 'sabah' || $mother_birthstate === 'sabah', 'Sabah Origin (Parent)');

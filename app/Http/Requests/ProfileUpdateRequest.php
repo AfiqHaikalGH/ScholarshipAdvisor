@@ -33,6 +33,7 @@ class ProfileUpdateRequest extends FormRequest
             'nationality' => ['nullable', 'string', 'max:100'],
             'birth_state' => ['nullable', 'string', 'max:100'],
             'dob' => ['nullable', 'date'],
+            'ic_number' => ['nullable', 'string', 'max:20'],
             'place_of_study' => ['nullable', 'string', 'max:255'],
             'study_location' => ['nullable', 'string', 'in:Local,Overseas'],
             'study_country' => ['nullable', 'string', 'max:100'],

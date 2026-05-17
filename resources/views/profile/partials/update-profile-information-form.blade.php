@@ -102,7 +102,7 @@
 
             <!-- Top 100 University Checkbox -->
             <div x-show="studyLocation" class="md:col-span-2 flex items-center pt-2" x-cloak>
-                <input id="is_top_100_university" type="checkbox" name="is_top_100_university" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('is_top_100_university', $user->is_top_100_university) ? 'checked' : '' }}>
+                <input id="is_top_100_university" type="checkbox" name="is_top_100_university" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('is_top_100_university', $user->is_top_100_university) ? 'checked' : '' }}>
                 <label for="is_top_100_university" class="ml-2 block text-sm text-gray-900 font-medium">
                     My institution is ranked in the Global Top 100
                 </label>
