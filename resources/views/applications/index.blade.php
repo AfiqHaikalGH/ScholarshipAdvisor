@@ -155,8 +155,7 @@
                                                 </span>
                                             </div>
                                         @else
-                                            <span class="text-gray-400 text-xs italic">Click the Apply Now on Recommendations
-                                                first</span>
+                                            <span class="text-gray-400 text-xs italic">Click apply</span>
                                         @endif
                                     </td>
                                 </tr>
