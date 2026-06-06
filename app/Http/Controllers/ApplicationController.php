@@ -267,7 +267,7 @@ class ApplicationController extends Controller
         );
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('applications.pdf', compact('user', 'qualification', 'scholarshipName'));
-        
+
         return $pdf->download(str_replace(' ', '_', $scholarshipName) . '_Application.pdf');
     }
 

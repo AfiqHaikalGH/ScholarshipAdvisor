@@ -62,6 +62,10 @@ class AdminAccountController extends Controller
             abort(404);
         }
 
+        if ($admin->id === auth()->id()) {
+            return redirect()->route('profile.edit');
+        }
+
         $providers = \App\Models\Scholarship::whereNotNull('provider')->select('provider')->distinct()->pluck('provider');
         return view('admin.admins.edit', compact('admin', 'providers'));
     }
@@ -74,7 +78,7 @@ class AdminAccountController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class.',id,'.$admin->id],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', \Illuminate\Validation\Rule::unique(User::class)->ignore($admin->id)],
             'phone_num' => ['nullable', 'string', 'max:20'],
             'password' => ['nullable', Rules\Password::defaults()],
             'role' => ['required', 'in:admin,representative'],
