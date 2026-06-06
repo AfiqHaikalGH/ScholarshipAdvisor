@@ -57,7 +57,7 @@
                                                 </path>
                                             </svg>
                                         </div>
-                                        <h3 class="text-lg font-bold text-gray-900">No Recommendations Yet</h3>
+                                        <h3 class="text-lg font-bold text-gray-900">No Application Yet</h3>
                                         <p class="text-sm text-gray-500 mt-1 max-w-xs mx-auto">Update your <a
                                                 href="{{ route('qualifications.index') }}"
                                                 class="text-indigo-600 font-bold hover:underline decoration-2">Qualifications</a>
