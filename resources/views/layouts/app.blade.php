@@ -166,7 +166,7 @@
                             class="flex flex-col items-center justify-center px-4 py-1.5 bg-white border border-blue-200 rounded-xl hover:bg-blue-50 transition-all cursor-pointer shadow-sm group"
                         >
                             <span class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors truncate max-w-[150px]">{{ Auth::user()->name }}</span>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Main Admin' : 'Admin') }}</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
                         </button>
 
                         <!-- Dropdown Menu -->
@@ -246,7 +246,7 @@
                     <div class="border-t border-gray-100 mt-4 pt-4 px-3 pb-2">
                         <div class="flex flex-col mb-4">
                             <span class="text-sm font-bold text-gray-900">{{ Auth::user()->name }}</span>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Main Admin' : 'Admin') }}</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
                         </div>
                         <a href="{{ route('profile.show') }}" class="block py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
                             My Profile

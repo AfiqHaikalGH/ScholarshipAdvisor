@@ -110,6 +110,10 @@ class AdminAccountController extends Controller
             return back()->with('error', 'You cannot delete your own account.');
         }
 
+        if ($admin->role === 'admin') {
+            return back()->with('error', 'You cannot delete another Super Admin account.');
+        }
+
         $admin->delete();
 
         return redirect()->route('admins.index')->with('success', 'Admin account deleted successfully.');
