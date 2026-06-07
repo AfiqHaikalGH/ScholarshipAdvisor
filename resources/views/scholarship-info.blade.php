@@ -1,8 +1,19 @@
 <x-app-layout headerTitle="Scholarship Information">
     <!-- Header Section -->
-    <div class="flex flex-col items-center justify-center text-center mb-6 md:mb-10 gap-2">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Information</h1>
-        <p class="text-base text-gray-500 max-w-2xl">Browse and filter available scholarship opportunities customized to your profile.</p>
+    <div class="relative flex flex-col items-center justify-center text-center mb-6 md:mb-10 gap-2">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Information</h1>
+            <p class="text-base text-gray-500 max-w-2xl mt-2">Browse and filter available scholarship opportunities customized to your profile.</p>
+        </div>
+        
+        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'representative']))
+        <div class="w-full sm:w-auto mt-4 sm:mt-0 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 flex justify-end">
+            <a href="{{ route('scholarships.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2C3BEB] text-white font-bold text-sm rounded-lg hover:bg-[#2130d4] transition shadow-sm">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Create Scholarship
+            </a>
+        </div>
+        @endif
     </div>
 
     <!-- Dashboard Layout: 2 Columns -->

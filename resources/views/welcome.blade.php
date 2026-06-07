@@ -17,9 +17,24 @@
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Averia+Libre:ital@1&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to bottom, #FAFAFB 0%, #F5F6F8 100%);
+        }
+
+        .faculty-glyphic-regular {
+            font-family: "Faculty Glyphic", sans-serif;
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        .averia-libre-regular-italic {
+            font-family: "Averia Libre", system-ui;
+            font-weight: 400;
+            font-style: italic;
         }
     </style>
 </head>
@@ -27,18 +42,21 @@
 <body class="text-gray-800 antialiased flex flex-col min-h-screen">
 
     <!-- Top Navigation Bar -->
-    <header class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
+    <header
+        class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-wrap items-center justify-between h-auto py-3 md:py-0 md:h-16 gap-4">
                 <!-- Logo -->
                 <a href="/" class="flex items-center gap-2">
-                    <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-16 w-auto object-contain" />
-                    <span class="font-bold text-gray-900 text-base">ScholarshipAdvisor</span>
+                    <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo"
+                        class="h-16 w-auto object-contain" />
+                    <span class="faculty-glyphic-regular text-gray-900 text-base">ScholarshipAdvisor</span>
                 </a>
 
                 <!-- Nav Links -->
                 <nav class="flex items-center gap-4 sm:gap-6 w-full md:w-auto justify-end">
-                    <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
+                    <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About
+                        Us</a>
                     @auth
                         <a href="{{ route('scholarship.info') }}"
                             class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Dashboard</a>
@@ -65,11 +83,12 @@
 
             <!-- Hero Text -->
             <div class="w-full lg:w-[50%] flex flex-col gap-6 text-center lg:text-left">
-                <h1 class="text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4rem] font-bold text-[#1A05A2] leading-[1.1] tracking-tight">
+                <h1
+                    class="faculty-glyphic-regular text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4rem] text-[#1A05A2] leading-[1.1] tracking-tight">
                     Find Your Perfect Scholarship
                 </h1>
 
-                <p class="text-gray-600 text-[1.05rem] leading-relaxed font-normal mt-2 lg:pr-8">
+                <p class="averia-libre-regular-italic text-gray-600 text-[1.05rem] leading-relaxed mt-2 lg:pr-8">
                     ScholarshipAdvisor is a smart platform designed to help students discover scholarships that best
                     match their academic background, eligibility, and personal qualifications. By simply creating an
                     account and entering your details, you can receive personalized scholarship recommendations quickly
@@ -122,11 +141,13 @@
                 </div>
 
                 <div class="relative z-10 flex flex-col items-center gap-8 md:gap-10">
-                    <h2 class="text-3xl sm:text-4xl md:text-[2.75rem] font-bold tracking-tight text-white leading-tight">Ready to
+                    <h2
+                        class="text-3xl sm:text-4xl md:text-[2.75rem] font-bold tracking-tight text-white leading-tight">
+                        Ready to
                         unlock your potential?</h2>
                     <a href="{{ route('register') }}"
                         class="bg-white hover:bg-gray-50 text-[#1e40a6] font-bold text-[1.1rem] px-10 py-4 rounded-full transition-transform hover:scale-105 shadow-[0_10px_20px_rgba(0,0,0,0.1)]">
-                        Create Your Free Account
+                        Create Account
                     </a>
                 </div>
             </div>
@@ -140,7 +161,8 @@
             class="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24 py-10 flex flex-col md:flex-row items-center justify-between gap-8">
 
             <div class="flex flex-col items-center md:items-start gap-1">
-                <span class="text-[1.05rem] font-extrabold text-[#1a1a1a] tracking-tight">ScholarshipAdvisor</span>
+                <span
+                    class="faculty-glyphic-regular text-[1.05rem] text-[#1a1a1a] tracking-tight">ScholarshipAdvisor</span>
                 <span class="text-[0.60rem] font-bold text-gray-400 tracking-[0.05em] uppercase">© 2024
                     ScholarshipAdvisor. The scholarly editorial.</span>
             </div>

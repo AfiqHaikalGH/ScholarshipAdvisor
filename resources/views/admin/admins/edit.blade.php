@@ -54,6 +54,8 @@
                             type="tel"
                             name="phone_num"
                             value="{{ old('phone_num', $admin->phone_num) }}"
+                            inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent transition"
                         >
                         @error('phone_num')

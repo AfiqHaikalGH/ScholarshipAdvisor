@@ -56,6 +56,8 @@
                     name="phone_num"
                     value="{{ old('phone_num') }}"
                     placeholder="+1 (555) 000-0000"
+                    inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                     class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent transition"
                 >
                 @error('phone_num')
@@ -213,6 +215,23 @@
                     <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                 @enderror
             </div>
+        </div>
+
+        <!-- Is University Top 100 -->
+        <div class="mb-4">
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    id="is_top_100_university"
+                    type="checkbox"
+                    name="is_top_100_university"
+                    value="1"
+                    {{ old('is_top_100_university') ? 'checked' : '' }}
+                    class="w-4 h-4 rounded border-gray-300 text-[#2C3BEB] focus:ring-[#2C3BEB]"
+                >
+                <span class="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">
+                    My university is ranked in the <span class="font-semibold text-gray-900">Top 100</span> globally
+                </span>
+            </label>
         </div>
 
         <!-- Password -->

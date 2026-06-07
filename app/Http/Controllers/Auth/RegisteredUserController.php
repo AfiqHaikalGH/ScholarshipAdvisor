@@ -44,6 +44,7 @@ class RegisteredUserController extends Controller
             'place_of_study' => ['nullable', 'string', 'max:255'],
             'study_location' => ['nullable', 'string', 'in:Local,Overseas'],
             'study_country'  => ['nullable', 'string', 'max:100'],
+            'is_top_100_university' => ['nullable', 'boolean'],
         ];
 
         $validated = $request->validate($rules);
@@ -64,6 +65,7 @@ class RegisteredUserController extends Controller
             'place_of_study' => $validated['place_of_study'] ?? null,
             'study_location' => $validated['study_location'] ?? null,
             'study_country'  => $validated['study_country'] ?? null,
+            'is_top_100_university' => $request->boolean('is_top_100_university'),
         ];
 
         $user = User::create($userData);

@@ -18,7 +18,22 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Averia+Libre:ital@1&display=swap');
+            
             body { font-family: 'Inter', sans-serif; }
+
+            .faculty-glyphic-regular {
+              font-family: "Faculty Glyphic", sans-serif;
+              font-weight: bold;
+              font-style: normal;
+            }
+
+            .averia-libre-regular-italic {
+              font-family: "Averia Libre", system-ui;
+              font-weight: 400;
+              font-style: italic;
+            }
         </style>
     </head>
     <body class="antialiased bg-[#F0F2F5]">
@@ -30,7 +45,7 @@
                     <!-- Logo -->
                     <a href="/" class="flex items-center gap-2">
                         <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-12 md:h-16 w-auto object-contain" />
-                        <span class="font-bold text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
+                        <span class="faculty-glyphic-regular text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
                     </a>
 
                     <!-- Nav Links -->
@@ -58,14 +73,14 @@
                         VERIFIED SCHOLARSHIPS ONLY
                     </div>
 
-                    <h1 class="text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-1">
+                    <h1 class="faculty-glyphic-regular text-4xl lg:text-5xl text-gray-900 leading-tight mb-1">
                         Scholarship
                     </h1>
-                    <h1 class="text-4xl lg:text-5xl font-black text-[#2C3BEB] leading-tight mb-6">
+                    <h1 class="faculty-glyphic-regular text-4xl lg:text-5xl text-[#2C3BEB] leading-tight mb-6">
                         Advisor
                     </h1>
 
-                    <p class="text-gray-500 text-base leading-relaxed mb-8">
+                    <p class="averia-libre-regular-italic text-gray-500 text-base leading-relaxed mb-8">
                         Centralized scholarship information and personalized recommendations to help you fund your academic journey.
                     </p>
 
@@ -75,20 +90,20 @@
                                 <div class="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                                 </div>
-                                <span class="text-sm text-gray-700">Discover 10,000+ active grants</span>
+                                <span class="averia-libre-regular-italic text-sm text-gray-700">Discover 10,000+ active grants</span>
                             </div>
                             <div class="flex items-center gap-3">
                                 <div class="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                                 </div>
-                                <span class="text-sm text-gray-700">AI-powered eligibility matching</span>
+                                <span class="averia-libre-regular-italic text-sm text-gray-700">AI-powered eligibility matching</span>
                             </div>
                         @else
                             <div class="flex items-center gap-3">
                                 <div class="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                                 </div>
-                                <span class="text-sm text-gray-700">Match qualifications with scholarship eligibility</span>
+                                <span class="averia-libre-regular-italic text-sm text-gray-700">Match qualifications with scholarship eligibility</span>
                             </div>
                         @endif
                     </div>

@@ -39,7 +39,9 @@
 
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Phone Number</label>
-                        <input type="text" name="phone_num" value="{{ old('phone_num', $user->phone_num) }}" required
+                        <input type="tel" name="phone_num" value="{{ old('phone_num', $user->phone_num) }}" required
+                            inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-[#2C3BEB] focus:border-[#2C3BEB]">
                     </div>
 

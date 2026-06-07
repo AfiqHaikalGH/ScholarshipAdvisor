@@ -1,7 +1,7 @@
-<x-app-layout headerTitle="My Profile">
+<x-app-layout headerTitle="{{ explode(' ', trim($user->name))[0] }}'s Profile">
     <div class="max-w-4xl mx-auto">
         <div class="mb-10 text-center flex flex-col items-center">
-            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">My Profile</h1>
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">{{ explode(' ', trim($user->name))[0] }}'s Profile</h1>
             <p class="text-base text-gray-500 mt-2 max-w-2xl">View your account details and personal information.</p>
         </div>
 

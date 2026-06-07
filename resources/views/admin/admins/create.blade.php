@@ -52,6 +52,8 @@
                             name="phone_num"
                             value="{{ old('phone_num') }}"
                             placeholder="+1 (555) 000-0000"
+                            inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent transition"
                         >
                         @error('phone_num')

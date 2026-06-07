@@ -21,7 +21,7 @@
             <!-- Phone Number -->
             <div>
                 <x-input-label for="phone_num" :value="__('Phone Number')" />
-                <x-text-input id="phone_num" name="phone_num" type="text" class="mt-1 block w-full" :value="old('phone_num', $user->phone_num)" autocomplete="tel" />
+                <input id="phone_num" name="phone_num" type="tel" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition" value="{{ old('phone_num', $user->phone_num) }}" autocomplete="tel" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                 <x-input-error class="mt-2" :messages="$errors->get('phone_num')" />
             </div>
 

@@ -18,7 +18,15 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap');
+            
             body { font-family: 'Inter', sans-serif; }
+
+            .faculty-glyphic-regular {
+              font-family: "Faculty Glyphic", sans-serif;
+              font-weight: bold;
+              font-style: normal;
+            }
 
             /* Sticky Nav adjustment */
             nav {
@@ -109,7 +117,7 @@
                         <!-- Logo -->
                         <a href="{{ route('scholarship.info') }}" class="flex items-center gap-2">
                             <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-12 md:h-16 w-auto object-contain" />
-                            <span class="font-bold text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
+                            <span class="faculty-glyphic-regular text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
                         </a>
 
                         <!-- Navigation Links -->
@@ -145,10 +153,6 @@
                                         Manage Admins
                                     </a>
                                 @endif
-                                <a href="{{ route('scholarships.create') }}"
-                                   class="text-sm font-medium {{ request()->routeIs('scholarships.create') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                    Create Scholarship
-                                </a>
                                 <a href="{{ route('admin.students.index') }}"
                                    class="text-sm font-medium {{ request()->routeIs('admin.students.*') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
                                     Students
@@ -163,17 +167,22 @@
                         <button
                             id="user-menu-trigger"
                             onclick="toggleUserMenu()"
-                            class="flex flex-col items-center justify-center px-4 py-1.5 bg-white border border-blue-200 rounded-xl hover:bg-blue-50 transition-all cursor-pointer shadow-sm group"
+                            class="flex flex-row items-center justify-center gap-3 px-4 py-1.5 bg-white border border-blue-200 rounded-xl hover:bg-blue-50 transition-all cursor-pointer shadow-sm group"
                         >
-                            <span class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors truncate max-w-[150px]">{{ Auth::user()->name }}</span>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 group-hover:text-[#2C3BEB] transition-colors"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <div class="flex flex-col items-center justify-center">
+                                <span class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors truncate max-w-[150px]">
+                                    {{ \Illuminate\Support\Str::words(Auth::user()->name, 2, '') }}
+                                </span>
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
+                            </div>
                         </button>
 
                         <!-- Dropdown Menu -->
                         <div class="user-dropdown" id="user-dropdown">
                             <a href="{{ route('profile.show') }}"> <!-- Updated to profile.show -->
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                My Profile
+                                Profile
                             </a>
                             <div class="border-t border-gray-100"></div>
                             <form method="POST" action="{{ route('logout') }}">
@@ -232,10 +241,6 @@
                                 Manage Admins
                             </a>
                         @endif
-                        <a href="{{ route('scholarships.create') }}"
-                           class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('scholarships.create') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
-                            Create Scholarship
-                        </a>
                         <a href="{{ route('admin.students.index') }}"
                            class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('admin.students.*') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Students
@@ -245,11 +250,11 @@
                     <!-- User Profile & Logout (Mobile Only) -->
                     <div class="border-t border-gray-100 mt-4 pt-4 px-3 pb-2">
                         <div class="flex flex-col mb-4">
-                            <span class="text-sm font-bold text-gray-900">{{ Auth::user()->name }}</span>
+                            <span class="text-sm font-bold text-gray-900">{{ \Illuminate\Support\Str::words(Auth::user()->name, 2, '') }}</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
                         </div>
                         <a href="{{ route('profile.show') }}" class="block py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
-                            My Profile
+                            Profile
                         </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

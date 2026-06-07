@@ -2,12 +2,12 @@
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div class="relative flex flex-col items-center justify-center text-center gap-4 mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Manage Admins</h1>
-                <p class="mt-1 text-sm text-gray-500">View and manage super admins and scholarship representatives.</p>
+                <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Manage Admins</h1>
+                <p class="mt-2 text-base text-gray-500">View and manage super admins and scholarship representatives.</p>
             </div>
-            <div>
+            <div class="w-full sm:w-auto sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 flex justify-end">
                 <a href="{{ route('admins.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2C3BEB] text-white font-bold text-sm rounded-lg hover:bg-[#2130d4] transition shadow-sm">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     Create New Admin
