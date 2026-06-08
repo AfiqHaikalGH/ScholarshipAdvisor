@@ -5,7 +5,7 @@
             <p class="text-base text-gray-500 max-w-2xl">Update your personal information and account settings.</p>
         </div>
 
-        @if(auth()->user()->role === 'admin')
+        @if(in_array(auth()->user()->role, ['admin', 'representative']))
             <!-- ADMIN FORM -->
             <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
                 <form method="POST" action="{{ route('profile.update') }}" class="space-y-6">
