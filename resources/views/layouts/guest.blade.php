@@ -64,10 +64,10 @@
 
         <!-- Main Content -->
         <main class="min-h-[calc(100vh-57px-48px)] flex items-center justify-center px-4 sm:px-6 py-10">
-            <div class="w-full max-w-5xl flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12">
+            <div class="w-full max-w-5xl flex flex-col lg:flex-row items-center {{ request()->routeIs('login') ? 'lg:items-center' : 'lg:items-start' }} gap-8 lg:gap-12">
 
                 <!-- Left Hero Panel -->
-                <div class="flex-1 max-w-md">
+                <div class="flex-1 max-w-md mx-auto {{ request()->routeIs('login') ? '' : 'lg:sticky lg:top-[50vh] lg:-translate-y-1/2' }}">
                     <div class="inline-flex items-center gap-2 bg-white border border-blue-200 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
                         VERIFIED SCHOLARSHIPS ONLY
