@@ -1,5 +1,8 @@
 <x-guest-layout headerTitle="Log In">
-    <h2 class="text-2xl font-bold text-gray-900 mb-6">Log In</h2>
+    <div class="mb-8">
+        <h2 class="text-[#2C3BEB] font-bold text-sm tracking-wide uppercase mb-1">Welcome back!</h2>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900">Log In</h1>
+    </div>
 
     <!-- Session Status -->
     @if (session('status'))
@@ -95,7 +98,7 @@
         <!-- Log In Button -->
         <button
             type="submit"
-            class="w-full bg-[#2C3BEB] hover:bg-[#2130d4] text-white font-semibold text-sm py-3 rounded-lg transition-colors"
+            class="w-full bg-gradient-to-r from-[#2C3BEB] to-[#4B58F0] hover:from-[#2130d4] hover:to-[#3b47e0] text-white font-bold text-sm py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg active:scale-[0.98]"
         >
             Log In
         </button>

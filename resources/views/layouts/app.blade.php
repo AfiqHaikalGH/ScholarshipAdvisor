@@ -1,194 +1,269 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@isset($headerTitle) {{ $headerTitle }} | @endisset {{ config('app.name', 'ScholarshipAdvisor') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Favicon -->
-        <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}">
+    <title>@isset($headerTitle) {{ $headerTitle }} | @endisset {{ config('app.name', 'ScholarshipAdvisor') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap');
-            
-            body { font-family: 'Inter', sans-serif; }
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-            .faculty-glyphic-regular {
-              font-family: "Faculty Glyphic", sans-serif;
-              font-weight: bold;
-              font-style: normal;
-            }
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap');
 
-            /* Sticky Nav adjustment */
-            nav {
-                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .faculty-glyphic-regular {
+            font-family: "Faculty Glyphic", sans-serif;
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        /* Sticky Nav adjustment */
+        nav {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
 
 
 
-            /* Dropdown animation */
-            .user-dropdown {
-                display: none;
-                position: absolute;
-                right: 0;
-                top: calc(100% + 8px);
-                min-width: 180px;
-                background: white;
-                border: 1px solid #E5E7EB;
-                border-radius: 10px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.10);
-                z-index: 50;
-                overflow: hidden;
-            }
-            .user-dropdown.open {
-                display: block;
-            }
-            .user-dropdown a,
-            .user-dropdown button {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                width: 100%;
-                padding: 10px 16px;
-                font-size: 14px;
-                color: #374151;
-                background: none;
-                border: none;
-                cursor: pointer;
-                text-align: left;
-                text-decoration: none;
-                transition: background 0.15s;
-            }
-            .user-dropdown a:hover,
-            .user-dropdown button:hover {
-                background: #EFF6FF; /* Soft light blue */
-                color: #2C3BEB; /* Brand blue text on hover */
-            }
-            /* Role-based backgrounds */
-            .bg-student {
-                background: #F0F2F5;
-            }
-            .bg-admin {
-                background: radial-gradient(circle at center, #CBDCEB 0%, #608BC1 100%) fixed;
-            }
-            .bg-representative {
-                background: radial-gradient(circle at center, #F4F8E6 0%, #E6EEC9 100%) fixed;
-            }
+        /* Dropdown animation */
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            min-width: 180px;
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+            z-index: 50;
+            overflow: hidden;
+        }
 
-            /* Loose text readability adjustments */
-            .bg-student h1:not(.bg-white h1), 
-            .bg-student h2:not(.bg-white h2) {
-                color: #000000 !important;
-            }
-            .bg-student p:not(.bg-white p) {
-                color: #374151 !important; /* Keeping paragraphs slightly softer gray for better readability */
-            }
-            
-            .bg-admin h1:not(.bg-white h1), 
-            .bg-admin h2:not(.bg-white h2),
-            .bg-representative h1:not(.bg-white h1), 
-            .bg-representative h2:not(.bg-white h2) {
-                color: #000000 !important;
-            }
-            .bg-admin p:not(.bg-white p),
-            .bg-representative p:not(.bg-white p) {
-                color: #374151 !important;
-            }
-        </style>
-    </head>
-    <body class="antialiased min-h-screen {{ !Auth::check() || Auth::user()->role === 'student' ? 'bg-student' : (Auth::user()->role === 'admin' ? 'bg-admin' : 'bg-representative') }}">
+        .user-dropdown.open {
+            display: block;
+        }
 
-        <!-- Navigation Bar -->
-        <nav x-data="{ mobileMenuOpen: false }" class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 xl:mx-10 rounded-2xl shadow-md transition-all">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-16">
+        .user-dropdown a,
+        .user-dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #374151;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
 
-                    <!-- Left: Logo + Nav Links -->
-                    <div class="flex items-center gap-4 xl:gap-10">
-                        <!-- Logo -->
-                        <a href="{{ route('scholarship.info') }}" class="flex items-center gap-2">
-                            <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo" class="h-12 md:h-16 w-auto object-contain" />
-                            <span class="faculty-glyphic-regular text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
+        .user-dropdown a:hover,
+        .user-dropdown button:hover {
+            background: #EFF6FF;
+            /* Soft light blue */
+            color: #2C3BEB;
+            /* Brand blue text on hover */
+        }
+
+        /* Role-based backgrounds */
+        .bg-student {
+            background: #F0F2F5;
+        }
+
+        .bg-admin {
+            background: radial-gradient(circle at center, #CBDCEB 0%, #608BC1 100%) fixed;
+        }
+
+        .bg-representative {
+            background: radial-gradient(circle at center, #F4F8E6 0%, #E6EEC9 100%) fixed;
+        }
+
+        /* Loose text readability adjustments */
+        .bg-student h1:not(.bg-white h1),
+        .bg-student h2:not(.bg-white h2) {
+            color: #000000 !important;
+        }
+
+        .bg-student p:not(.bg-white p) {
+            color: #374151 !important;
+            /* Keeping paragraphs slightly softer gray for better readability */
+        }
+
+        .bg-admin h1:not(.bg-white h1),
+        .bg-admin h2:not(.bg-white h2),
+        .bg-representative h1:not(.bg-white h1),
+        .bg-representative h2:not(.bg-white h2) {
+            color: #000000 !important;
+        }
+
+        .bg-admin p:not(.bg-white p),
+        .bg-representative p:not(.bg-white p) {
+            color: #374151 !important;
+        }
+    </style>
+</head>
+
+<body
+    class="antialiased min-h-screen {{ !Auth::check() || Auth::user()->role === 'student' ? 'bg-student' : (Auth::user()->role === 'admin' ? 'bg-admin' : 'bg-representative') }}">
+
+    <!-- Navigation Bar -->
+    <nav x-data="{ mobileMenuOpen: false }"
+        class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 xl:mx-10 rounded-2xl shadow-md transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+
+                <!-- Left: Logo + Nav Links -->
+                <div class="flex items-center gap-4 xl:gap-10">
+                    <!-- Logo -->
+                    <a href="{{ route('scholarship.info') }}" class="flex items-center gap-2">
+                        <img src="{{ asset('images/logo.png') }}" alt="ScholarshipAdvisor Logo"
+                            class="h-12 md:h-16 w-auto object-contain" />
+                        <span
+                            class="faculty-glyphic-regular text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
+                    </a>
+
+                    <!-- Navigation Links -->
+                    <div class="hidden xl:flex items-center gap-2">
+                        <a href="{{ route('scholarship.info') }}"
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium {{ request()->routeIs('scholarship.info') ? 'text-[#2C3BEB] bg-[#EEF2FF]' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }} transition-colors">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                            </svg>
+                            Scholarship Information
                         </a>
 
-                        <!-- Navigation Links -->
-                        <div class="hidden xl:flex items-center gap-6">
-                            <a href="{{ route('scholarship.info') }}"
-                               class="text-sm font-medium {{ request()->routeIs('scholarship.info') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                Scholarship Information
+                        @if(Auth::check() && Auth::user()->role === 'student')
+                            <a href="{{ route('qualifications.index') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium {{ request()->routeIs('qualifications.index') ? 'text-[#2C3BEB] bg-[#EEF2FF]' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }} transition-colors">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                                    <path d="M12 11h4" />
+                                    <path d="M12 16h4" />
+                                    <path d="M8 11h.01" />
+                                    <path d="M8 16h.01" />
+                                </svg>
+                                Qualifications
                             </a>
+                            <a href="{{ route('qualifications.recommendations') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium {{ request()->routeIs('qualifications.recommendations') ? 'text-[#2C3BEB] bg-[#EEF2FF]' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }} transition-colors">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                </svg>
+                                Recommendations
+                            </a>
+                            <a href="{{ route('applications.start') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium {{ request()->routeIs('applications.start') ? 'text-[#2C3BEB] bg-[#EEF2FF]' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }} transition-colors">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                </svg>
+                                Application
+                            </a>
+                            <a href="{{ route('applications.index') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium {{ request()->routeIs('applications.index') ? 'text-[#2C3BEB] bg-[#EEF2FF]' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }} transition-colors">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                    <polyline points="10 9 9 9 8 9" />
+                                </svg>
+                                Status
+                            </a>
+                        @endif
 
-                            @if(Auth::check() && Auth::user()->role === 'student')
-                                <a href="{{ route('qualifications.index') }}"
-                                   class="text-sm font-medium {{ request()->routeIs('qualifications.index') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                    Qualifications
-                                </a>
-                                <a href="{{ route('qualifications.recommendations') }}"
-                                   class="text-sm font-medium {{ request()->routeIs('qualifications.recommendations') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                    Recommendations
-                                </a>
-                                <a href="{{ route('applications.start') }}"
-                                   class="text-sm font-medium {{ request()->routeIs('applications.start') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                    Application
-                                </a>
-                                <a href="{{ route('applications.index') }}"
-                                   class="text-sm font-medium {{ request()->routeIs('applications.index') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                    Status
+                        @if(Auth::check() && in_array(Auth::user()->role, ['admin', 'representative']))
+                            @if(Auth::user()->role === 'admin')
+                                <a href="{{ route('admins.index') }}"
+                                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium {{ request()->routeIs('admins.*') ? 'text-[#2C3BEB] bg-[#EEF2FF]' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }} transition-colors">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                    </svg>
+                                    Manage Admins
                                 </a>
                             @endif
-
-                            @if(Auth::check() && in_array(Auth::user()->role, ['admin', 'representative']))
-                                @if(Auth::user()->role === 'admin')
-                                    <a href="{{ route('admins.index') }}"
-                                       class="text-sm font-medium {{ request()->routeIs('admins.*') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                        Manage Admins
-                                    </a>
-                                @endif
-                                <a href="{{ route('admin.students.index') }}"
-                                   class="text-sm font-medium {{ request()->routeIs('admin.students.*') ? 'text-[#2C3BEB] border-b-2 border-[#2C3BEB] pb-0.5' : 'text-gray-600 hover:text-gray-900' }} transition-colors">
-                                    Students
-                                </a>
-                            @endif
-                        </div>
+                            <a href="{{ route('admin.students.index') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium {{ request()->routeIs('admin.students.*') ? 'text-[#2C3BEB] bg-[#EEF2FF]' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }} transition-colors">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                                Students
+                            </a>
+                        @endif
                     </div>
+                </div>
 
-                    <!-- Right: User Dropdown & Mobile Menu Button -->
-                    <div class="flex items-center gap-2 sm:gap-4">
-                        <div class="hidden xl:block relative" id="user-menu-wrapper">
-                        <button
-                            id="user-menu-trigger"
-                            onclick="toggleUserMenu()"
-                            class="flex flex-row items-center justify-center gap-3 px-4 py-1.5 bg-white border border-blue-200 rounded-xl hover:bg-blue-50 transition-all cursor-pointer shadow-sm group"
-                        >
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 group-hover:text-[#2C3BEB] transition-colors"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <!-- Right: User Dropdown & Mobile Menu Button -->
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <div class="hidden xl:block relative" id="user-menu-wrapper">
+                        <button id="user-menu-trigger" onclick="toggleUserMenu()"
+                            class="flex flex-row items-center justify-center gap-3 px-4 py-1.5 bg-white border border-blue-200 rounded-xl hover:bg-blue-50 transition-all cursor-pointer shadow-sm group">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="text-gray-400 group-hover:text-[#2C3BEB] transition-colors">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
                             <div class="flex flex-col items-center justify-center">
-                                <span class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors truncate max-w-[150px]">
+                                <span
+                                    class="text-sm font-medium text-gray-900 group-hover:text-[#2C3BEB] leading-tight transition-colors truncate max-w-[150px]">
                                     {{ \Illuminate\Support\Str::words(Auth::user()->name, 2, '') }}
                                 </span>
-                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
+                                <span
+                                    class="text-[10px] font-bold text-gray-400 uppercase tracking-widest transition-colors">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
                             </div>
                         </button>
 
                         <!-- Dropdown Menu -->
                         <div class="user-dropdown" id="user-dropdown">
                             <a href="{{ route('profile.show') }}"> <!-- Updated to profile.show -->
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
                                 Profile
                             </a>
                             <div class="border-t border-gray-100"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                        <polyline points="16,17 21,12 16,7" />
+                                        <line x1="21" y1="12" x2="9" y2="12" />
+                                    </svg>
                                     Log Out
                                 </button>
                             </form>
@@ -197,10 +272,15 @@
 
                     <!-- Hamburger Button (Mobile) -->
                     <div class="flex items-center xl:hidden">
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-500 hover:text-gray-700 focus:outline-none p-2 rounded-md border border-gray-200 hover:bg-gray-50">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen"
+                            class="text-gray-500 hover:text-gray-700 focus:outline-none p-2 rounded-md border border-gray-200 hover:bg-gray-50">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                <path :class="{'hidden': mobileMenuOpen, 'inline-flex': !mobileMenuOpen }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                <path :class="{'hidden': !mobileMenuOpen, 'inline-flex': mobileMenuOpen }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                <path :class="{'hidden': mobileMenuOpen, 'inline-flex': !mobileMenuOpen }"
+                                    class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16" />
+                                <path :class="{'hidden': !mobileMenuOpen, 'inline-flex': mobileMenuOpen }"
+                                    class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
@@ -208,28 +288,29 @@
             </div>
 
             <!-- Mobile Menu Dropdown -->
-            <div x-show="mobileMenuOpen" x-transition class="xl:hidden border-t border-gray-200 bg-white/95 rounded-b-2xl absolute w-full left-0 top-full shadow-lg overflow-hidden">
+            <div x-show="mobileMenuOpen" x-transition
+                class="xl:hidden border-t border-gray-200 bg-white/95 rounded-b-2xl absolute w-full left-0 top-full shadow-lg overflow-hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <a href="{{ route('scholarship.info') }}"
-                       class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('scholarship.info') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                        class="block px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('scholarship.info') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                         Scholarship Information
                     </a>
 
                     @if(Auth::check() && Auth::user()->role === 'student')
                         <a href="{{ route('qualifications.index') }}"
-                           class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('qualifications.index') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                            class="block px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('qualifications.index') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Qualifications
                         </a>
                         <a href="{{ route('qualifications.recommendations') }}"
-                           class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('qualifications.recommendations') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                            class="block px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('qualifications.recommendations') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Recommendations
                         </a>
                         <a href="{{ route('applications.start') }}"
-                           class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('applications.start') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                            class="block px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('applications.start') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Application
                         </a>
                         <a href="{{ route('applications.index') }}"
-                           class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('applications.index') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                            class="block px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('applications.index') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Status
                         </a>
                     @endif
@@ -237,12 +318,12 @@
                     @if(Auth::check() && in_array(Auth::user()->role, ['admin', 'representative']))
                         @if(Auth::user()->role === 'admin')
                             <a href="{{ route('admins.index') }}"
-                               class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('admins.*') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                                class="block px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admins.*') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                                 Manage Admins
                             </a>
                         @endif
                         <a href="{{ route('admin.students.index') }}"
-                           class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('admin.students.*') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
+                            class="block px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.students.*') ? 'text-[#2C3BEB] bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50' }}">
                             Students
                         </a>
                     @endif
@@ -250,42 +331,47 @@
                     <!-- User Profile & Logout (Mobile Only) -->
                     <div class="border-t border-gray-100 mt-4 pt-4 px-3 pb-2">
                         <div class="flex flex-col mb-4">
-                            <span class="text-sm font-bold text-gray-900">{{ \Illuminate\Support\Str::words(Auth::user()->name, 2, '') }}</span>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
+                            <span
+                                class="text-sm font-bold text-gray-900">{{ \Illuminate\Support\Str::words(Auth::user()->name, 2, '') }}</span>
+                            <span
+                                class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ Auth::user()->role === 'student' ? 'Student' : (Auth::user()->role === 'admin' ? 'Super Admin' : 'Admin') }}</span>
                         </div>
-                        <a href="{{ route('profile.show') }}" class="block py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                        <a href="{{ route('profile.show') }}"
+                            class="block py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
                             Profile
                         </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-700 hover:bg-red-50">
+                            <button type="submit"
+                                class="w-full text-left block px-3 py-2 rounded-md text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50">
                                 Log Out
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-        </nav>
+    </nav>
 
 
-        <!-- Page Content -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-            {{ $slot }}
-        </main>
+    <!-- Page Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        {{ $slot }}
+    </main>
 
-        <!-- Close dropdown when clicking outside -->
-        <script>
-            function toggleUserMenu() {
-                const dropdown = document.getElementById('user-dropdown');
-                dropdown.classList.toggle('open');
+    <!-- Close dropdown when clicking outside -->
+    <script>
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        document.addEventListener('click', function (event) {
+            const wrapper = document.getElementById('user-menu-wrapper');
+            if (wrapper && !wrapper.contains(event.target)) {
+                document.getElementById('user-dropdown').classList.remove('open');
             }
+        });
+    </script>
+</body>
 
-            document.addEventListener('click', function(event) {
-                const wrapper = document.getElementById('user-menu-wrapper');
-                if (wrapper && !wrapper.contains(event.target)) {
-                    document.getElementById('user-dropdown').classList.remove('open');
-                }
-            });
-        </script>
-    </body>
 </html>

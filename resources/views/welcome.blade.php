@@ -39,34 +39,52 @@
     </style>
 </head>
 
-<body class="text-gray-800 antialiased flex flex-col min-h-screen">
+<body class="text-gray-800 antialiased flex flex-col min-h-screen"
+    style="background-image: url('/images/welcome_bg.png'); background-size: 100% auto; background-position: center; background-repeat: no-repeat; background-attachment: scroll;">
+
+    <!-- Background Overlay -->
+    <div class="fixed inset-0 z-[-1] bg-white/40"></div>
 
     <!-- Top Navigation Bar -->
-    <header
-        class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 md:mx-10 rounded-2xl shadow-md transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap items-center justify-between h-auto py-3 md:py-0 md:h-16 gap-4">
+    <header id="main-nav" class="sticky top-0 z-50 w-full transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
-                <a href="/" class="flex items-center gap-2">
-                    <img src="{{ asset('images/logo.jpeg') }}" alt="ScholarshipAdvisor Logo"
-                        class="h-16 w-auto object-contain" />
-                    <span class="faculty-glyphic-regular text-gray-900 text-base">ScholarshipAdvisor</span>
+                <a href="/" class="flex items-center gap-3">
+                    <img src="{{ asset('images/logo.png') }}" alt="ScholarshipAdvisor Logo"
+                        class="h-20 md:h-24 w-auto object-contain" />
+                    <span
+                        class="faculty-glyphic-regular text-gray-900 text-base hidden sm:inline">ScholarshipAdvisor</span>
                 </a>
 
                 <!-- Nav Links -->
-                <nav class="flex items-center gap-4 sm:gap-6 w-full md:w-auto justify-end">
-                    <a href="{{ url('/') }}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">About
-                        Us</a>
+                <nav class="flex items-center gap-6">
+                    <a href="{{ url('/') }}"
+                        class="text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
                     @auth
                         <a href="{{ route('scholarship.info') }}"
-                            class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Dashboard</a>
+                            class="inline-flex items-center gap-2 text-sm font-bold border border-blue-200 text-[#2C3BEB] px-5 py-2 rounded-xl hover:bg-blue-50 transition-all shadow-sm">
+                            Dashboard
+                        </a>
                     @else
                         <a href="{{ route('login') }}"
-                            class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Login</a>
+                            class="inline-flex items-center gap-2 text-sm font-bold border border-blue-200 text-[#2C3BEB] px-5 py-2 rounded-xl hover:bg-blue-50 transition-all shadow-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" />
+                            </svg>
+                            Login
+                        </a>
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}"
-                                class="text-sm font-medium border border-gray-900 text-gray-900 px-4 py-1.5 rounded-md hover:bg-gray-900 hover:text-white transition-colors">Sign
-                                Up</a>
+                                class="inline-flex items-center gap-2 text-sm font-bold border border-blue-200 text-[#2C3BEB] px-5 py-2 rounded-xl hover:bg-blue-50 transition-all shadow-sm">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                                Sign Up
+                            </a>
                         @endif
                     @endauth
                 </nav>
@@ -209,6 +227,16 @@
         </div>
     </footer>
 
+    <script>
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-white/90', 'backdrop-blur-md', 'border-b', 'border-gray-200', 'shadow-sm');
+            } else {
+                nav.classList.remove('bg-white/90', 'backdrop-blur-md', 'border-b', 'border-gray-200', 'shadow-sm');
+            }
+        });
+    </script>
 </body>
 
 </html>

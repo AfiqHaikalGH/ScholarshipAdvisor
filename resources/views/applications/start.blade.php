@@ -1,12 +1,18 @@
 <x-app-layout headerTitle="Start Application">
-    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <div class="mb-10 text-center flex flex-col items-center">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Offline Scholarships
-                Application</h1>
-            <p class="text-base text-gray-500 mt-2 max-w-2xl">
-                These scholarships match your profile. Click <strong>Update</strong> to prepare your offline application
-                form and download the PDF for manual submission.
-            </p>
+    <div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Banner -->
+        <div class="relative w-full rounded-3xl overflow-hidden flex items-center mb-8 shadow-md h-[140px] md:h-[180px] mt-2"
+             style="background: url('{{ asset('images/hero_banner.png') }}') center/cover no-repeat, linear-gradient(to right, #C8D5F8, #BDD0FF);">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#C8D5F8]/95 via-[#C8D5F8]/60 to-transparent pointer-events-none"></div>
+            <div class="relative z-10 px-8 md:px-12 max-w-2xl">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-[#2C3BEB]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-[#0B1221] tracking-tight leading-tight">Offline Scholarships Application</h1>
+                </div>
+                <p class="text-sm text-gray-800 leading-relaxed font-semibold">These scholarships match your profile. Click <strong>Update</strong> to prepare your offline application form and download the PDF for manual submission.</p>
+            </div>
         </div>
 
         @if(session('errors'))
@@ -15,9 +21,9 @@
             </div>
         @endif
 
-        <div class="bg-white shadow-xl border border-gray-200 rounded-3xl overflow-hidden">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-[#7DAACB] bg-[#7DAACB]">
                             <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
@@ -28,18 +34,18 @@
                                 Action</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-100">
+                    <tbody class="divide-y divide-gray-100">
                         @forelse($recommendations as $rec)
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-5 whitespace-nowrap">
-                                    <div class="text-sm font-bold text-gray-900">{{ $rec['name'] }}</div>
+                            <tr class="hover:bg-gray-50 transition duration-100">
+                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    {{ $rec['name'] }}
                                 </td>
-                                <td class="px-6 py-5 whitespace-nowrap">
-                                    <div class="text-sm text-gray-600">{{ $rec['provider'] }}</div>
+                                <td class="px-6 py-4 text-gray-500">
+                                    {{ $rec['provider'] }}
                                 </td>
-                                <td class="px-6 py-5 whitespace-nowrap text-right">
+                                <td class="px-6 py-4 text-right">
                                     <a href="{{ route('applications.offline-form', ['scholarship' => $rec['name']]) }}"
-                                        class="inline-flex items-center px-5 py-2.5 bg-[#2C3BEB] text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-[#2130d4] hover:shadow-lg transition-all active:scale-95">
+                                        class="inline-flex items-center px-4 py-2 bg-[#2C3BEB] text-white rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-[#2130d4] hover:shadow-lg transition-all active:scale-95">
                                         Update
                                     </a>
                                 </td>

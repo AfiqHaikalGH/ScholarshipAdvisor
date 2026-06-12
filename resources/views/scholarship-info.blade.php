@@ -1,20 +1,84 @@
 <x-app-layout headerTitle="Scholarship Information">
-    <!-- Header Section -->
-    <div class="relative flex flex-col items-center justify-center text-center mb-6 md:mb-10 gap-2">
-        <div>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Information</h1>
-            <p class="text-base text-gray-500 max-w-2xl mt-2">Browse and filter available scholarship opportunities customized to your profile.</p>
+    <script>
+        document.documentElement.classList.add('pending-unlock');
+    </script>
+    <style>
+        .pending-unlock .anim-hero,
+        .pending-unlock .anim-sidebar,
+        .pending-unlock .anim-card {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Animations */
+        @keyframes flyInFromTop {
+            0% { opacity: 0; transform: translateY(-80px) scale(0.95); }
+            70% { transform: translateY(5px) scale(1.01); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes flyInFromBottom {
+            0% { opacity: 0; transform: translateY(80px) scale(0.95); }
+            70% { transform: translateY(-5px) scale(1.01); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes flyInFromLeft {
+            0% { opacity: 0; transform: translateX(-80px) scale(0.95); }
+            70% { transform: translateX(5px) scale(1.01); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes flyInFromRight {
+            0% { opacity: 0; transform: translateX(80px) scale(0.95); }
+            70% { transform: translateX(-5px) scale(1.01); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes flyInFromTopLeft {
+            0% { opacity: 0; transform: translate(-80px, -80px) scale(0.95); }
+            70% { transform: translate(5px, 5px) scale(1.01); }
+            100% { opacity: 1; transform: translate(0, 0) scale(1); }
+        }
+        @keyframes flyInFromTopRight {
+            0% { opacity: 0; transform: translate(80px, -80px) scale(0.95); }
+            70% { transform: translate(-5px, 5px) scale(1.01); }
+            100% { opacity: 1; transform: translate(0, 0) scale(1); }
+        }
+        @keyframes flyInScale {
+            0% { opacity: 0; transform: scale(0.9); }
+            70% { transform: scale(1.02); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .play-unlock .anim-hero { opacity: 0; animation: flyInFromTop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 50ms; }
+        .play-unlock .anim-sidebar { opacity: 0; animation: flyInFromLeft 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 100ms; }
+        .play-unlock .anim-card { opacity: 0; animation-duration: 0.6s; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); animation-fill-mode: forwards; }
+    </style>
+
+    <!-- Hero Section -->
+    <div class="relative w-full rounded-3xl overflow-hidden flex items-center mb-6 shadow-md h-[140px] md:h-[180px] anim-hero"
+         style="background: url('{{ asset('images/hero_banner.png') }}') center/cover no-repeat, linear-gradient(to right, #C8D5F8, #BDD0FF);">
+
+        <!-- Left overlay gradient so text is readable -->
+        <div class="absolute inset-0 bg-gradient-to-r from-[#C8D5F8]/95 via-[#C8D5F8]/60 to-transparent pointer-events-none"></div>
+
+        <!-- Text Content -->
+        <div class="relative z-10 px-6 md:px-10 max-w-xs md:max-w-md">
+            <h1 class="text-lg md:text-2xl font-extrabold text-[#0B1221] tracking-tight leading-tight mb-1">
+                Find the right scholarship <br />
+                <span class="text-[#1E2DB8]">for your future</span>
+            </h1>
+            <p class="text-[10px] md:text-xs text-gray-700 leading-snug font-medium mt-1">
+                Discover opportunities that match your profile<br class="hidden md:block"> and support your academic journey.
+            </p>
         </div>
-        
-        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'representative']))
-        <div class="w-full sm:w-auto mt-4 sm:mt-0 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 flex justify-end">
-            <a href="{{ route('scholarships.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2C3BEB] text-white font-bold text-sm rounded-lg hover:bg-[#2130d4] transition shadow-sm">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                Create Scholarship
-            </a>
-        </div>
-        @endif
     </div>
+
+    @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'representative']))
+    <div class="flex justify-end mb-6 md:-mt-4">
+        <a href="{{ route('scholarships.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2C3BEB] text-white font-bold text-sm rounded-lg hover:bg-[#2130d4] transition shadow-sm">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Create Scholarship
+        </a>
+    </div>
+    @endif
 
     <!-- Dashboard Layout: 2 Columns -->
     <div class="flex flex-col lg:flex-row gap-8">
@@ -22,7 +86,7 @@
         @if(!auth()->check() || auth()->user()->role !== 'representative')
         <!-- Left Column: Filters Sidebar -->
         <div class="w-full lg:w-72 shrink-0">
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 sticky top-6">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 sticky top-6 anim-sidebar">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
@@ -117,61 +181,57 @@
                     @endif
                 </div>
             @else
-                <!-- Scholarship Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Scholarship Grid — 3 cols desktop, 2 tablet, 1 mobile -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                     @foreach($scholarships as $scholarship)
-                        <div class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col transition-all hover:shadow-lg hover:border-blue-200 h-full relative overflow-hidden group">
-                            
-                            <div class="flex-grow z-10">
-                                <!-- Status & Type Badges -->
-                                <div class="mb-3 inline-flex flex-wrap gap-2">
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider {{ $scholarship->application_status === 'Open' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-gray-100 text-gray-600 border border-gray-200' }}">
-                                        @if($scholarship->application_status === 'Open')
-                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-blue-200 relative overflow-hidden group anim-card">
+
+                            <!-- Status & Type Badges -->
+                            <div class="flex flex-wrap gap-1.5 mb-2.5">
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $scholarship->application_status === 'Open' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-gray-100 text-gray-500 border border-gray-200' }}">
+                                    @if($scholarship->application_status === 'Open')
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                                    @endif
+                                    {{ $scholarship->application_status ?? 'Unknown' }}
+                                </span>
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ !empty($scholarship->apply_url) ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'bg-indigo-50 text-indigo-600 border border-indigo-200' }}">
+                                    <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        @if(!empty($scholarship->apply_url))
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                        @else
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                         @endif
-                                        {{ $scholarship->application_status ?? 'Status Unknown' }}
-                                    </span>
-
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider {{ !empty($scholarship->apply_url) ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-indigo-50 text-indigo-700 border border-indigo-200' }}">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            @if(!empty($scholarship->apply_url))
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                            @else
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                            @endif
-                                        </svg>
-                                        {{ !empty($scholarship->apply_url) ? 'Online' : 'Offline' }}
-                                    </span>
-                                </div>
-
-                                <!-- Name -->
-                                <h3 class="text-lg font-bold text-gray-900 leading-tight mb-3 uppercase tracking-wide group-hover:text-[#2C3BEB] transition-colors">
-                                    {{ $scholarship->name }}
-                                </h3>
-                                
-                                <!-- Provider -->
-                                <div class="flex items-start gap-2 text-gray-600 mb-4">
-                                    <svg class="mt-0.5 shrink-0 text-gray-400" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
-                                    <span class="text-xs font-bold uppercase tracking-wider">{{ $scholarship->provider ?? 'Unknown Provider' }}</span>
-                                </div>
+                                    </svg>
+                                    {{ !empty($scholarship->apply_url) ? 'Online' : 'Offline' }}
+                                </span>
                             </div>
-                            
+
+                            <!-- Scholarship Name -->
+                            <h3 class="text-sm font-bold text-gray-900 leading-snug mb-1.5 uppercase tracking-wide group-hover:text-[#2C3BEB] transition-colors line-clamp-2 flex-grow">
+                                {{ $scholarship->name }}
+                            </h3>
+
+                            <!-- Provider -->
+                            <div class="flex items-center gap-1.5 text-gray-500 mb-3">
+                                <svg class="shrink-0 text-gray-400" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                                <span class="text-[11px] font-semibold uppercase tracking-wider truncate">{{ $scholarship->provider ?? 'Unknown Provider' }}</span>
+                            </div>
+
                             <!-- Action Buttons -->
-                            <div class="mt-6 z-10 flex flex-col gap-2 border-t border-gray-100 pt-5">
-                                <a href="{{ route('scholarships.show', $scholarship->id) }}" class="block w-full py-2.5 bg-[#2C3BEB] hover:bg-[#2130d4] text-white text-center font-bold text-sm rounded-lg transition-all">
+                            <div class="border-t border-gray-100 pt-3 flex flex-col gap-1.5">
+                                <a href="{{ route('scholarships.show', $scholarship->id) }}" class="block w-full py-1.5 bg-[#2C3BEB] hover:bg-[#2130d4] text-white text-center font-semibold text-xs rounded-lg transition-all">
                                     View Detailed Requirements
                                 </a>
-                                
+
                                 @if(auth()->user() && (auth()->user()->role === 'admin' || (auth()->user()->role === 'representative' && auth()->user()->provider_name === $scholarship->provider)))
-                                <div class="grid grid-cols-2 gap-2 mt-1">
-                                    <a href="{{ route('scholarships.edit', $scholarship->id) }}" class="block py-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 text-center font-bold text-[13px] rounded-lg transition-colors border border-yellow-200">
+                                <div class="grid grid-cols-2 gap-1.5">
+                                    <a href="{{ route('scholarships.edit', $scholarship->id) }}" class="block py-1.5 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 text-center font-semibold text-[11px] rounded-lg transition-colors border border-yellow-200">
                                         Update
                                     </a>
-
                                     <form action="{{ route('scholarships.destroy', $scholarship->id) }}" method="POST" class="w-full" onsubmit="return confirm('Are you sure you want to delete this scholarship? This action cannot be undone.');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="w-full py-2 bg-red-50 hover:bg-red-100 text-red-700 text-center font-bold text-[13px] rounded-lg transition-colors border border-red-200">
+                                        <button type="submit" class="w-full py-1.5 bg-red-50 hover:bg-red-100 text-red-700 text-center font-semibold text-[11px] rounded-lg transition-colors border border-red-200">
                                             Delete
                                         </button>
                                     </form>
@@ -181,12 +241,48 @@
                         </div>
                     @endforeach
                 </div>
-                
+
                 <!-- Pagination -->
-                <div class="mt-8">
+                <div class="mt-6">
                     {{ $scholarships->links() }}
                 </div>
             @endif
         </div>
     </div>
+    
+    <script>
+        if (document.documentElement.classList.contains('pending-unlock')) {
+            // Wait for next paint
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    document.documentElement.classList.remove('pending-unlock');
+                    document.documentElement.classList.add('play-unlock');
+                    
+                    // Assign specific animations and delays to cards
+                    const cards = document.querySelectorAll('.anim-card');
+                    cards.forEach((card, index) => {
+                        // Calculate delay: stagger by 50ms, starting after sidebar (100ms)
+                        const delay = 150 + (index * 50);
+                        card.style.animationDelay = `${delay}ms`;
+                        
+                        // Determine direction based on index (assuming 3 columns max)
+                        const col = index % 3;
+                        const row = Math.floor(index / 3);
+                        
+                        if (row === 0) {
+                            if (col === 0) card.style.animationName = 'flyInFromTopLeft';
+                            else if (col === 1) card.style.animationName = 'flyInFromTop';
+                            else card.style.animationName = 'flyInFromTopRight';
+                        } else if (row === 1) {
+                            if (col === 0) card.style.animationName = 'flyInFromLeft';
+                            else if (col === 1) card.style.animationName = 'flyInScale';
+                            else card.style.animationName = 'flyInFromRight';
+                        } else {
+                            card.style.animationName = 'flyInFromBottom';
+                        }
+                    });
+                });
+            });
+        }
+    </script>
 </x-app-layout>

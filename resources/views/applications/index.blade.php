@@ -1,13 +1,19 @@
 <x-app-layout headerTitle="Applications">
     <div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
 
-        {{-- Page Header --}}
-        <div class="mb-10 text-center flex flex-col items-center">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Scholarship Application Status
-            </h1>
-            <p class="text-base text-gray-500 mt-2 max-w-2xl">
-                All scholarships you are eligible for (100% match) and their application status.
-            </p>
+        <!-- Hero Banner -->
+        <div class="relative w-full rounded-3xl overflow-hidden flex items-center mb-8 shadow-md h-[140px] md:h-[180px] mt-2"
+             style="background: url('{{ asset('images/hero_banner.png') }}') center/cover no-repeat, linear-gradient(to right, #C8D5F8, #BDD0FF);">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#C8D5F8]/95 via-[#C8D5F8]/60 to-transparent pointer-events-none"></div>
+            <div class="relative z-10 px-8 md:px-12 max-w-2xl">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-[#2C3BEB]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-[#0B1221] tracking-tight leading-tight">Scholarship Application Status</h1>
+                </div>
+                <p class="text-sm text-gray-800 leading-relaxed font-semibold">All scholarships you are eligible for (100% match) and their application status.</p>
+            </div>
         </div>
         
         {{-- Flash Messages --}}
