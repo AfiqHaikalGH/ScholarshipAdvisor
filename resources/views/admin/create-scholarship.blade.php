@@ -1,9 +1,101 @@
 <x-app-layout headerTitle="Create Scholarship">
-    <div class="max-w-4xl mx-auto">
-        <div class="mb-10 text-center flex flex-col items-center">
-            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Create Scholarship</h1>
-            <p class="text-base text-gray-500 mt-2 max-w-2xl">Enter the detailed requirements and information for a new scholarship offering.</p>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+
+        <!-- Hero Banner -->
+        <div class="relative w-full rounded-3xl overflow-hidden flex items-center mb-8 shadow-md h-[140px] md:h-[180px] mt-2"
+             style="background: url('{{ asset('images/hero_banner.png') }}') center/cover no-repeat, linear-gradient(to right, #C8D5F8, #BDD0FF);">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#C8D5F8]/95 via-[#C8D5F8]/60 to-transparent pointer-events-none"></div>
+            <div class="relative z-10 px-8 md:px-12 max-w-xl">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-[#2C3BEB]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-[#0B1221] tracking-tight leading-tight">Create Scholarship</h1>
+                </div>
+                <p class="text-sm text-gray-800 leading-relaxed font-semibold">Enter the detailed requirements and information for a new scholarship offering.</p>
+            </div>
         </div>
+
+        <div class="flex flex-col lg:flex-row gap-8 items-start" x-data="createScholarshipNav()">
+
+            <!-- Left Sticky Navigation Panel -->
+            <div class="w-full lg:w-[280px] shrink-0 sticky top-24 z-20 hidden lg:block">
+                <nav class="space-y-6 relative">
+                    <!-- Vertical tracking line -->
+                    <div class="absolute left-[15px] top-6 bottom-6 w-0.5 bg-gray-200 z-0 rounded-full"></div>
+
+                    <button type="button" @click="scrollTo('section-basic')" class="relative z-10 flex items-start gap-4 w-full text-left group">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-[3px]"
+                             :class="activeSection === 'section-basic' ? 'bg-[#2C3BEB] text-white border-[#2C3BEB] shadow-md ring-4 ring-blue-100' : 'bg-white text-gray-400 border-gray-200 group-hover:border-[#2C3BEB] group-hover:text-[#2C3BEB]'">1</div>
+                        <div class="mt-1">
+                            <p class="text-sm font-bold transition-colors" :class="activeSection === 'section-basic' ? 'text-[#2C3BEB]' : 'text-gray-700 group-hover:text-[#2C3BEB]'">Basic Information</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Name, provider, description</p>
+                        </div>
+                    </button>
+
+                    <button type="button" @click="scrollTo('section-appdetails')" class="relative z-10 flex items-start gap-4 w-full text-left group">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-[3px]"
+                             :class="activeSection === 'section-appdetails' ? 'bg-[#2C3BEB] text-white border-[#2C3BEB] shadow-md ring-4 ring-blue-100' : 'bg-white text-gray-400 border-gray-200 group-hover:border-[#2C3BEB] group-hover:text-[#2C3BEB]'">2</div>
+                        <div class="mt-1">
+                            <p class="text-sm font-bold transition-colors" :class="activeSection === 'section-appdetails' ? 'text-[#2C3BEB]' : 'text-gray-700 group-hover:text-[#2C3BEB]'">Application Details</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Dates &amp; status</p>
+                        </div>
+                    </button>
+
+                    <button type="button" @click="scrollTo('section-requirements')" class="relative z-10 flex items-start gap-4 w-full text-left group">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-[3px]"
+                             :class="activeSection === 'section-requirements' ? 'bg-[#2C3BEB] text-white border-[#2C3BEB] shadow-md ring-4 ring-blue-100' : 'bg-white text-gray-400 border-gray-200 group-hover:border-[#2C3BEB] group-hover:text-[#2C3BEB]'">3</div>
+                        <div class="mt-1">
+                            <p class="text-sm font-bold transition-colors" :class="activeSection === 'section-requirements' ? 'text-[#2C3BEB]' : 'text-gray-700 group-hover:text-[#2C3BEB]'">General Requirements</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Citizenship, income, health</p>
+                        </div>
+                    </button>
+
+                    <button type="button" @click="scrollTo('section-entry')" class="relative z-10 flex items-start gap-4 w-full text-left group">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-[3px]"
+                             :class="activeSection === 'section-entry' ? 'bg-[#2C3BEB] text-white border-[#2C3BEB] shadow-md ring-4 ring-blue-100' : 'bg-white text-gray-400 border-gray-200 group-hover:border-[#2C3BEB] group-hover:text-[#2C3BEB]'">4</div>
+                        <div class="mt-1">
+                            <p class="text-sm font-bold transition-colors" :class="activeSection === 'section-entry' ? 'text-[#2C3BEB]' : 'text-gray-700 group-hover:text-[#2C3BEB]'">Entry Qualification</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Diploma / Bachelor / Master / PhD</p>
+                        </div>
+                    </button>
+
+                    <button type="button" @click="scrollTo('section-bond')" class="relative z-10 flex items-start gap-4 w-full text-left group">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-[3px]"
+                             :class="activeSection === 'section-bond' ? 'bg-[#2C3BEB] text-white border-[#2C3BEB] shadow-md ring-4 ring-blue-100' : 'bg-white text-gray-400 border-gray-200 group-hover:border-[#2C3BEB] group-hover:text-[#2C3BEB]'">5</div>
+                        <div class="mt-1">
+                            <p class="text-sm font-bold transition-colors" :class="activeSection === 'section-bond' ? 'text-[#2C3BEB]' : 'text-gray-700 group-hover:text-[#2C3BEB]'">Bond Information</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Bond duration &amp; organization</p>
+                        </div>
+                    </button>
+
+                    <button type="button" @click="scrollTo('section-submit')" class="relative z-10 flex items-start gap-4 w-full text-left group">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-[3px]"
+                             :class="activeSection === 'section-submit' ? 'bg-[#2C3BEB] text-white border-[#2C3BEB] shadow-md ring-4 ring-blue-100' : 'bg-white text-gray-400 border-gray-200 group-hover:border-[#2C3BEB] group-hover:text-[#2C3BEB]'">6</div>
+                        <div class="mt-1">
+                            <p class="text-sm font-bold transition-colors" :class="activeSection === 'section-submit' ? 'text-[#2C3BEB]' : 'text-gray-700 group-hover:text-[#2C3BEB]'">Publish</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Review &amp; submit</p>
+                        </div>
+                    </button>
+                </nav>
+
+                <!-- Help Card -->
+                <div class="mt-12 bg-blue-50/50 border border-blue-100/60 rounded-2xl p-5 relative overflow-hidden group hover:border-blue-200 transition-colors">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-100 rounded-full blur-2xl opacity-50"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="bg-white p-1.5 rounded-full shadow-sm">
+                                <svg class="w-4 h-4 text-[#2C3BEB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <span class="font-bold text-blue-950 text-sm tracking-tight">Tips</span>
+                        </div>
+                        <p class="text-[11px] leading-relaxed text-blue-800/80 font-medium">Leave fields blank if they don't apply. You can always edit the scholarship after publishing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Form Area -->
+            <div class="w-full lg:flex-1 min-w-0">
 
         @if(session('success'))
             <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm font-medium">
@@ -25,7 +117,7 @@
             @csrf
 
             <!-- Section 1: Basic Information -->
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div id="section-basic" class="form-section bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden scroll-mt-28">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-semibold text-gray-800">Basic Information</h2>
                 </div>
@@ -76,7 +168,7 @@
             </div>
 
             <!-- Section 2: Application Details -->
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div id="section-appdetails" class="form-section bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden scroll-mt-28">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-semibold text-gray-800">Application Details</h2>
                 </div>
@@ -108,7 +200,7 @@
             </div>
 
             <!-- Section 3: General Requirements -->
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div id="section-requirements" class="form-section bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden scroll-mt-28">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-semibold text-gray-800">General Requirements</h2>
                 </div>
@@ -154,7 +246,7 @@
                 </div>
             </div>
             <!-- Section 4: Entry Qualification Requirements -->
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div id="section-entry" class="form-section bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden scroll-mt-28">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-semibold text-gray-800">Entry Qualification Requirements</h2>
                     <p class="text-xs text-gray-500 mt-0.5">Minimum academic criteria applicants must already hold — set
@@ -838,7 +930,7 @@
 
 
             <!-- Section 5: Bond Information -->
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div id="section-bond" class="form-section bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden scroll-mt-28">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-semibold text-gray-800">Bond Information</h2>
                 </div>
@@ -867,18 +959,59 @@
                 </div>
             </div>
 
-            <div class="flex justify-end gap-3 pt-4">
-                <a href="{{ route('scholarship.info') }}"
-                    class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium text-sm hover:bg-gray-50 transition-colors">Cancel</a>
-                <button type="submit"
-                    class="px-5 py-2.5 rounded-lg bg-[#2C3BEB] text-white font-medium text-sm hover:bg-[#2130d4] transition-colors shadow-sm">
-                    Publish Scholarship
-                </button>
+            <div id="section-submit" class="form-section scroll-mt-28 bg-gray-50 rounded-2xl border-2 border-gray-200 p-6 md:p-8">
+                <div class="flex flex-col items-center justify-center text-center">
+                    <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-[#2C3BEB] mb-4 shadow-sm border border-blue-200">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-gray-900 mb-2">Publish Scholarship</h2>
+                    <p class="text-sm text-gray-600 max-w-sm mb-6">Review the details above, then publish to make this scholarship visible to students.</p>
+                    <div class="flex gap-3 justify-center">
+                        <a href="{{ route('scholarship.info') }}"
+                            class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium text-sm hover:bg-gray-50 transition-colors">Cancel</a>
+                        <button type="submit"
+                            class="px-6 py-2.5 rounded-xl bg-[#2C3BEB] text-white font-bold text-sm hover:bg-[#2130d4] transition-colors shadow-sm flex items-center gap-2">
+                            Publish Scholarship
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
+            </div><!-- end main form area -->
+        </div><!-- end two-column flex -->
     </div>
 
     <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('createScholarshipNav', () => ({
+                activeSection: 'section-basic',
+                
+                init() {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            // When the element crosses into the "active" zone of the viewport
+                            if (entry.isIntersecting) {
+                                this.activeSection = entry.target.id;
+                            }
+                        });
+                    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+                    
+                    document.querySelectorAll('.form-section').forEach(sec => observer.observe(sec));
+                },
+
+                scrollTo(id) {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        const y = el.getBoundingClientRect().top + window.scrollY - 100;
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                        // Temporarily set it so it updates immediately on click
+                        this.activeSection = id;
+                    }
+                }
+            }));
+        });
+
         document.getElementById('create_scholarship_form').addEventListener('submit', function (event) {
             // Warn on duplicate SPM subjects within a block
             const rows = document.querySelectorAll('.education-level-row');

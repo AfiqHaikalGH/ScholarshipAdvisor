@@ -1,12 +1,23 @@
 <x-app-layout headerTitle="Students">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {{-- Page Header --}}
-        <div class="mb-10 text-center flex flex-col items-center">
-            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Students</h1>
-            <p class="text-base text-gray-500 mt-2 max-w-2xl">
-                Manage student accounts and review their scholarship applications.
-            </p>
+        <!-- Hero Section -->
+        <div class="relative w-full rounded-3xl overflow-hidden flex items-center mb-8 shadow-md h-[140px] md:h-[180px]"
+             style="background: url('{{ asset('images/hero_banner.png') }}') center/cover no-repeat, linear-gradient(to right, #C8D5F8, #BDD0FF);">
+
+            <!-- Left overlay gradient so text is readable -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#C8D5F8]/95 via-[#C8D5F8]/60 to-transparent pointer-events-none"></div>
+
+            <!-- Text Content -->
+            <div class="relative z-10 px-6 md:px-10 max-w-xs md:max-w-md">
+                <h1 class="text-lg md:text-2xl font-extrabold text-[#0B1221] tracking-tight leading-tight mb-1">
+                    Student Accounts &amp; <br />
+                    <span class="text-[#1E2DB8]">Applications</span>
+                </h1>
+                <p class="text-[10px] md:text-xs text-gray-700 leading-snug font-medium mt-1">
+                    Manage student accounts and review<br class="hidden md:block"> their scholarship applications.
+                </p>
+            </div>
         </div>
 
         @if($students->isEmpty())

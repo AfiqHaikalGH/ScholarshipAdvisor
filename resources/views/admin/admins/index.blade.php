@@ -1,18 +1,31 @@
 <x-app-layout headerTitle="Manage Admins">
-    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        
-        <!-- Header -->
-        <div class="relative flex flex-col items-center justify-center text-center gap-4 mb-8">
-            <div>
-                <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Manage Admins</h1>
-                <p class="mt-2 text-base text-gray-500">View and manage super admins and scholarship representatives.</p>
+    <div class="max-w-7xl mx-auto pt-4 pb-10 px-4 sm:px-6 lg:px-8">
+
+        <!-- Hero Section -->
+        <div class="relative w-full rounded-3xl overflow-hidden flex items-center mb-8 shadow-md h-[140px] md:h-[180px]"
+             style="background: url('{{ asset('images/hero_banner.png') }}') center/cover no-repeat, linear-gradient(to right, #C8D5F8, #BDD0FF);">
+
+            <!-- Left overlay gradient so text is readable -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#C8D5F8]/95 via-[#C8D5F8]/60 to-transparent pointer-events-none"></div>
+
+            <!-- Text Content -->
+            <div class="relative z-10 px-6 md:px-10 max-w-xs md:max-w-md">
+                <h1 class="text-lg md:text-2xl font-extrabold text-[#0B1221] tracking-tight leading-tight mb-1">
+                    Manage Admins &amp; <br />
+                    <span class="text-[#1E2DB8]">Representatives</span>
+                </h1>
+                <p class="text-[10px] md:text-xs text-gray-700 leading-snug font-medium mt-1">
+                    View, create, and manage super admin accounts<br class="hidden md:block"> and scholarship representative access.
+                </p>
             </div>
-            <div class="w-full sm:w-auto sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 flex justify-end">
-                <a href="{{ route('admins.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2C3BEB] text-white font-bold text-sm rounded-lg hover:bg-[#2130d4] transition shadow-sm">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    Create New Admin
-                </a>
-            </div>
+        </div>
+
+        <!-- Create Button (below hero) -->
+        <div class="flex justify-end mb-6 -mt-2">
+            <a href="{{ route('admins.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2C3BEB] text-white font-bold text-sm rounded-lg hover:bg-[#2130d4] transition shadow-sm">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Create New Admin
+            </a>
         </div>
 
         <!-- Success Message -->

@@ -86,7 +86,10 @@
         /* Role-based backgrounds */
         .bg-student {
             background: #F0F2F5;
+            /* Currently just a plain color */
         }
+
+
 
         .bg-admin {
             background: radial-gradient(circle at center, #CBDCEB 0%, #608BC1 100%) fixed;
@@ -125,8 +128,14 @@
     class="antialiased min-h-screen {{ !Auth::check() || Auth::user()->role === 'student' ? 'bg-student' : (Auth::user()->role === 'admin' ? 'bg-admin' : 'bg-representative') }}">
 
     <!-- Navigation Bar -->
-    <nav x-data="{ mobileMenuOpen: false }"
-        class="bg-white/80 backdrop-blur-md border border-gray-200 sticky top-4 z-50 mx-4 xl:mx-10 rounded-2xl shadow-md transition-all">
+    <nav x-data="{ mobileMenuOpen: false, scrolled: false, initDone: false }"
+        x-init="scrolled = (window.pageYOffset > 20); setTimeout(() => initDone = true, 100);"
+        @scroll.window="scrolled = (window.pageYOffset > 20)"
+        class="sticky z-50 border-gray-200 top-4 mx-4 xl:mx-10 rounded-2xl bg-white/80 backdrop-blur-md border shadow-md"
+        :class="{
+            'transition-all duration-300': initDone,
+            '!top-0 !mx-0 !rounded-none !bg-white !border-b': scrolled
+        }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
 
