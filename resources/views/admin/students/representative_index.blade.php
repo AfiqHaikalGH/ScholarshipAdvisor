@@ -1,8 +1,21 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col items-center justify-center text-center mb-8 gap-2">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Student Applications</h1>
-            <p class="text-sm text-gray-500 max-w-2xl">Review all scholarship applications submitted by students.</p>
+        <!-- Hero Section -->
+        <div class="relative w-full rounded-3xl overflow-hidden flex items-center mb-8 shadow-md h-[140px] md:h-[180px]"
+             style="background: url('{{ asset('images/hero_banner.png') }}') center/cover no-repeat, linear-gradient(to right, #C8D5F8, #BDD0FF);">
+
+            <!-- Left overlay gradient so text is readable -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#C8D5F8]/95 via-[#C8D5F8]/60 to-transparent pointer-events-none"></div>
+
+            <!-- Text Content -->
+            <div class="relative z-10 px-6 md:px-10 max-w-xs md:max-w-md">
+                <h1 class="text-lg md:text-2xl font-extrabold text-[#0B1221] tracking-tight leading-tight mb-1">
+                    Student Applications
+                </h1>
+                <p class="text-[10px] md:text-xs text-gray-700 leading-snug font-medium mt-1">
+                    Review all scholarship applications submitted by students.
+                </p>
+            </div>
         </div>
 
         @if(session('success'))
@@ -83,7 +96,7 @@
                                                 $isSubmittable = $app->is_proof_submitted;
                                             @endphp
                                             <select name="status"
-                                                class="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent {{ !$isSubmittable ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : '' }}"
+                                                class="w-36 text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent {{ !$isSubmittable ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : '' }}"
                                                 {{ !$isSubmittable ? 'disabled' : '' }}>
                                                 <option value="Not Apply" @selected($app->status === 'Not Apply')>Not Apply</option>
                                                 <option value="Applied"   @selected($app->status === 'Applied')>Applied</option>

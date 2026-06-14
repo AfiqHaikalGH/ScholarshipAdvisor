@@ -228,13 +228,9 @@
                                     <a href="{{ route('scholarships.edit', $scholarship->id) }}" class="block py-1.5 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 text-center font-semibold text-[11px] rounded-lg transition-colors border border-yellow-200">
                                         Update
                                     </a>
-                                    <form action="{{ route('scholarships.destroy', $scholarship->id) }}" method="POST" class="w-full" onsubmit="return confirm('Are you sure you want to delete this scholarship? This action cannot be undone.');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="w-full py-1.5 bg-red-50 hover:bg-red-100 text-red-700 text-center font-semibold text-[11px] rounded-lg transition-colors border border-red-200">
-                                            Delete
-                                        </button>
-                                    </form>
+                                    <button type="button" onclick="openDeleteModal('{{ route('scholarships.destroy', $scholarship->id) }}', 'Delete Scholarship?', 'Are you sure you want to delete this scholarship?<br>This action is permanent and cannot be undone.')" class="w-full py-1.5 bg-red-50 hover:bg-red-100 text-red-700 text-center font-semibold text-[11px] rounded-lg transition-colors border border-red-200">
+                                        Delete
+                                    </button>
                                 </div>
                                 @endif
                             </div>
@@ -285,4 +281,22 @@
             });
         }
     </script>
+    <script>
+        // Smooth scroll for category links (if needed)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    
+    @include('profile.partials.delete-account-modal')
 </x-app-layout>

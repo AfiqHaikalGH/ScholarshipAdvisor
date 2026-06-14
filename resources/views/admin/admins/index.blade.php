@@ -86,13 +86,9 @@
                                         </a>
                                         
                                         @if($admin->id !== auth()->id() && $admin->role !== 'admin')
-                                            <form action="{{ route('admins.destroy', $admin->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this admin account?');" class="inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-red-600 hover:bg-red-50 transition-colors border border-transparent hover:border-red-100" title="Delete">
-                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                                </button>
-                                            </form>
+                                            <button type="button" onclick="openDeleteModal('{{ route('admins.destroy', $admin->id) }}', 'Delete Admin Account?', 'Are you sure you want to delete this admin account?<br>This action is permanent and cannot be undone.')" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-red-600 hover:bg-red-50 transition-colors border border-transparent hover:border-red-100" title="Delete">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                            </button>
                                         @else
                                             <div class="w-8 h-8"></div> <!-- placeholder for spacing -->
                                         @endif
@@ -111,4 +107,5 @@
             </div>
         </div>
     </div>
+    @include('profile.partials.delete-account-modal')
 </x-app-layout>

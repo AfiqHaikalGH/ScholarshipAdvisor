@@ -92,7 +92,7 @@
                                             $isSubmittable = $app->is_proof_submitted || auth()->user()->role === 'admin';
                                         @endphp
                                         <select name="status"
-                                            class="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent {{ !$isSubmittable ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : '' }}"
+                                            class="w-36 text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#2C3BEB] focus:border-transparent {{ !$isSubmittable ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : '' }}"
                                             {{ !$isSubmittable ? 'disabled' : '' }}>
                                             <option value="Not Apply" @selected($app->status === 'Not Apply')>Not Apply</option>
                                             <option value="Applied"   @selected($app->status === 'Applied')>Applied</option>

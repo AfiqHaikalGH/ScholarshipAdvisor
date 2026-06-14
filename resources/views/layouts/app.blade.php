@@ -85,18 +85,19 @@
 
         /* Role-based backgrounds */
         .bg-student {
-            background: #F0F2F5;
-            /* Currently just a plain color */
+            background: url('{{ asset('images/student_background.png') }}') center/cover no-repeat fixed;
         }
+
 
 
 
         .bg-admin {
-            background: radial-gradient(circle at center, #CBDCEB 0%, #608BC1 100%) fixed;
+            background: url('{{ asset('images/admin_background.png') }}') center/cover no-repeat fixed;
         }
 
+
         .bg-representative {
-            background: radial-gradient(circle at center, #F4F8E6 0%, #E6EEC9 100%) fixed;
+            background: url('{{ asset('images/representative_background.png') }}') center/cover no-repeat fixed;
         }
 
         /* Loose text readability adjustments */
