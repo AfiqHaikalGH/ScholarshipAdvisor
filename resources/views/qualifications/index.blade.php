@@ -117,34 +117,7 @@
                     </button>
                 </nav>
 
-                <!-- Help Card -->
-                <div
-                    class="mt-12 bg-blue-50/50 border border-blue-100/60 rounded-2xl p-5 relative overflow-hidden group hover:border-blue-200 transition-colors">
-                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-100 rounded-full blur-2xl opacity-50"></div>
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="bg-white p-1.5 rounded-full shadow-sm">
-                                <svg class="w-4 h-4 text-[#2C3BEB]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <span class="font-bold text-blue-950 text-sm tracking-tight">Need Help?</span>
-                        </div>
-                        <p class="text-[11px] leading-relaxed text-blue-800/80 mb-3 font-medium">Make sure your
-                            information is accurate for better recommendations.</p>
-                        <a href="#"
-                            class="inline-flex items-center justify-center gap-1.5 bg-white border border-blue-200 px-4 py-2 w-full rounded-xl text-xs font-bold text-[#2C3BEB] hover:bg-blue-50 transition-colors shadow-sm">
-                            View Guide <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+
             </div>
 
             <!-- Main Content Area -->
