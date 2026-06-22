@@ -72,8 +72,6 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect()->route('scholarship.info');
+        return redirect()->route('register')->with('status', 'Account created successfully. Please login.');
     }
 }

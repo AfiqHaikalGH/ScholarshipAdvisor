@@ -443,7 +443,7 @@ class QualificationController extends Controller
         ];
         $this->addCriteria($m, $ms, in_array($place_of_study, $khazanahUnis), 'Eligible University (Khazanah List)');
         $this->addCriteria($m, $ms, $education_level === 'bachelor', 'Applying for Bachelor');
-        $results[] = ['name' => 'Khazanah Watan Scholarship Program', 'score' => (count($m) / $total) * 100, 'matches' => $m, 'missing' => $ms];
+        $results[] = ['name' => 'Khazanah Watan Scholarship Programme', 'score' => (count($m) / $total) * 100, 'matches' => $m, 'missing' => $ms];
 
         // ── Rule 11: Kijang Undergraduate Scholarship ──
         $m = [];
